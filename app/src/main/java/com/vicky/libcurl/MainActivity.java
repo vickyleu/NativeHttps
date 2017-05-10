@@ -21,9 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-//        JSONObject jsonObject=new JSONTokener();
-
+        Class c;
+        c.newInstance()
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());

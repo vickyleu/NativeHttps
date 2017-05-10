@@ -124,12 +124,24 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
         if (reader.parse(jsonResult, root)) {
 
             jclass jsonO = env->FindClass(JSON_OBJECT);
+            jmethodID getConstructorMid = env->
+                    GetMethodID(jsonO, "getConstructor",
+                                "([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;");
+              jmethodID getConstructorMid = env->
+                    GetMethodID(jsonO, "newInstance",
+                                "()Ljava/lang/Object;");
+
+
+            env->NewObject(jsonO,getConstructorMid);
+
             @SuppressWarnings("unchecked")
             Constructor<Person> con = classType.getConstructor(String.class,
             int.class);
             Object obj = con.newInstance("lxf", 23);
 
-            env->GetMethodID(jsonO,"","")
+            jstring json=env->NewStringUTF("");
+
+
             printJson(root);
             /*//根节点
             Json::Value weatherinfo = root["weatherinfo"];

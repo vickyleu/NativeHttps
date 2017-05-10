@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.vicky.libcurl"
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+            //Available ABIs are [armeabi, armeabi-v7a, arm64-v8a, x86, x86_64, mips, mips64].
+                abiFilters  'armeabi','armeabi-v7a','mips','x86','x86_64','arm64-v8a'  //'mips64'
+                cppFlags "-frtti -fexceptions -DJSON_IS_AMALGAMATION "
+
+
+//                targets "native-lib-demo"
+//                // Passes optional arguments to CMake.
+//                arguments "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
+//
+//                // Sets optional flags for the C compiler.
+//                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
+//
+//                // Sets a flag to enable format macro constants for the C++ compiler.
+//                cppFlags "-D__STDC_FORMAT_MACROS"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.+'
+    testCompile 'junit:junit:4.12'
+}

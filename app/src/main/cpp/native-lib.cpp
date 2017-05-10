@@ -122,6 +122,14 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
         Json::Value root;
         //从字符串中读取数据
         if (reader.parse(jsonResult, root)) {
+
+            jclass jsonO = env->FindClass(JSON_OBJECT);
+            @SuppressWarnings("unchecked")
+            Constructor<Person> con = classType.getConstructor(String.class,
+            int.class);
+            Object obj = con.newInstance("lxf", 23);
+
+            env->GetMethodID(jsonO,"","")
             printJson(root);
             /*//根节点
             Json::Value weatherinfo = root["weatherinfo"];

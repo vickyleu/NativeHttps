@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import jni.http.CppProxy;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+//        JSONObject jsonObject=new JSONTokener();
 
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);

@@ -16,7 +16,7 @@ public class CppProxy {
 
     // Used to load the 'native-lib' library on application startup.
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("native");
         System.loadLibrary("jsonlib");
     }
 

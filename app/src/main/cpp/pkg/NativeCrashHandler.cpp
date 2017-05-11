@@ -8,6 +8,7 @@
 
 #ifndef NDEBUG
 #define Verify(x, r)  assert((x) && r)
+
 #else
 #define Verify(x, r)  ((void)(x))
 
@@ -162,11 +163,8 @@ void nativeCrashHandler_onLoad(JavaVM *jvm) {
     JNIEnv *env = 0;
     int result = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
     Verify(result == JNI_OK, "Could not get JNI environment");
-
     init(env);
-
-    applicationClass = env->FindClass(NATIVE_CRASH_HANDLER);
-
+    applicationClass = (jclass)env->NewGlobalRef(env->FindClass(NATIVE_CRASH_HANDLER));
 
     Verify(applicationClass, "Could not find NativeCrashHandler java class");
     applicationClass = (jclass) env->NewGlobalRef(applicationClass);

@@ -6,8 +6,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
 import jni.http.CppProxy;
 
 public class MainActivity extends AppCompatActivity {

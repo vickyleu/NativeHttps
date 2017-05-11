@@ -3,9 +3,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
-#include "network/web_task.h"
-#include "Utils/CDebuger.h"
-#include "Utils/StringUtil.h"
+#include "../network/web_task.h"
+#include "../Utils/CDebuger.h"
+#include "../Utils/StringUtil.h"
 
 
 static int get_filesize(const char *fpath) {

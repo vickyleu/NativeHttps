@@ -63,6 +63,7 @@ message(STATUS "Source files libssl.so path is: " ${libcurl_DIR}/libs/${ANDROID_
 
 #######查找cpp目录下的所有源文件并将名称保存到 DIR_LIB_SRCS 变量
 aux_source_directory(src/main/cpp  DIR_LIB_SRCS)
+aux_source_directory(src/main/cpp/pkg  DIR_LIB_SRCS_PKG)
 message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 
 
@@ -71,15 +72,14 @@ message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 
 #增加Cpp动态共享库
 find_library(log-lib  log )
-add_library (native-lib SHARED ${DIR_LIB_SRCS})
+add_library (native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
 
 
 #增加include包含的路径所有头文件
-###target_include_directories(native-lib PRIVATE ${libcurl_DIR}/)
 include_directories(${libcurl_DIR}/)
 
 #生成链接动态库
-target_link_libraries(native-lib
+target_link_libraries(native
 ${log-lib}
  jcrypto
  jssl

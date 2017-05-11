@@ -3,8 +3,8 @@
 //
 //
 
-#include "Utils/log.h"
-#include "Utils/StringUtil.h"
+#include "../Utils/log.h"
+#include "../Utils/StringUtil.h"
 class StringFormatException: public exception
 {
     virtual const char* what() const throw()

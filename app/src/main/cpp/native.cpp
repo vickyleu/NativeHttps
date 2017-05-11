@@ -1,19 +1,15 @@
-#include <jni.h>
-#include <string>
-#include <openssl/hmac.h>
+//
+// Created by Administrator on 2017/5/11.
+//
+
+#include "pkg/header/native.h"
+#include "Utils/StringUtil.h"
+#include "Utils/CDebuger.h"
 #include "../../../jni/libjsoncpp/json.h"
 #include "network/web_task.h"
-#include "Exception/NativeCrashHandler.h"
 #include "Utils/JsonUtil.h"
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-jbyteArray
-Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) {
+jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) {
     unsigned char key[] = {0x6B, 0x65, 0x79};
 
     unsigned int result_len;
@@ -52,21 +48,9 @@ jstring toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
     return result;
 }
 
-jint JNI_OnLoad(JavaVM *vm, void *reserved) {
-    printMsg("JNI启动");
-    JNIEnv *env = NULL;
-    jint result = -1;
-    if ((vm)->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
-        return result;
-    }
-    nativeCrashHandler_onLoad(vm);
-    // 返回jni的版本
-    return JNI_VERSION_1_6;
-}
 
-JNIEXPORT jstring JNICALL
-Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
-                               jobjectArray header_) {
+jstring Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
+                                       jobjectArray header_) {
     if (url_ == NULL || url_ == (jstring) "") {
         return env->NewStringUTF("URL请求不正确");
     }
@@ -149,9 +133,8 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
     }
 }
 
-JNIEXPORT jstring JNICALL
-Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
-                                jstring header_) {
+jstring Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
+                                        jstring header_) {
     const char *url = env->GetStringUTFChars(url_, 0);
     const char *header = env->GetStringUTFChars(header_, 0);
 /*    //POST请求,举例来说
@@ -176,8 +159,3 @@ Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this
     return Java_jni_http_CppProxy_httpGET(env, type, env->NewStringUTF(string2char(url)), NULL,
                                           NULL);
 }
-
-
-#ifdef __cplusplus
-}
-#endif

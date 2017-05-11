@@ -73,13 +73,15 @@ char *jstring2char(JNIEnv *env, jstring jstr) {
     jstring strencode = env->NewStringUTF("utf-8");
     jmethodID mid = env->GetMethodID(clsstring, "getBytes", "(Ljava/lang/String;)[B");
     jbyteArray barr = (jbyteArray) env->CallObjectMethod(jstr, mid, strencode);
-    jsize alen = jstr == NULL ? 0 : (env)->GetArrayLength(barr);
+    jsize alen = (env)->GetArrayLength(barr);
     jbyte *ba = env->GetByteArrayElements(barr, JNI_FALSE);
     if (alen > 0) {
-        rtn = (char *) malloc((size_t) (alen + 1));
+        rtn = (char *) malloc((size_t) (alen + 2));
         memcpy(rtn, ba, (size_t) alen);
         rtn[alen] = 0;
+
     }
+
     env->ReleaseByteArrayElements(barr, ba, 0);
     return rtn;
 }
@@ -115,8 +117,8 @@ string Jstring2string(JNIEnv *env, jstring jstr) {
     jsize alen = env->GetArrayLength(barr);
     jbyte *ba = env->GetByteArrayElements(barr, JNI_FALSE);
     if (alen > 0) {
-        rtn = (char *) malloc(alen + 1);         //"\0"
-        memcpy(rtn, ba, alen);
+        rtn = (char *) malloc((size_t) (alen + 2));         //"\0"
+        memcpy(rtn, ba, (size_t) alen);
         rtn[alen] = 0;
     }
     env->ReleaseByteArrayElements(barr, ba, 0);  //释放内存空间
@@ -150,5 +152,6 @@ string tm2String() {
     char buffer[40];
     strftime(buffer,sizeof(buffer),"%Y年%m月%d日 %H时%M分%S秒",value);
     string str(buffer);
+//    free(value);
     return str;
 }

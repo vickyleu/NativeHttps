@@ -9,8 +9,6 @@ bool isDebug = false;
 void printMsg(char const *log) {
     if (isDebug) {
         LOGE("%s", log);
-//        free(&log);
-//        log=NULL;
     }
 }
 
@@ -33,12 +31,6 @@ void printMsg1(const char *pstring, jstring pJstring, JNIEnv *pEnv) {
         char *VAR1 = string2char(pstring);
         char *VAR2 = jstring2char(pEnv, pJstring);
         LOGE("%s", strcat(VAR1, VAR2));
-//        free(VAR1);
-//        free(VAR2);
-//        free(&pstring);
-//        pstring=NULL;
-//        VAR1=NULL;
-//        VAR2=NULL;
     }
 }
 
@@ -47,14 +39,6 @@ void printMsg2(const char *pstring, string pJstring) {
         char *VAR1 = string2char(pstring);
         char *VAR2 = string2char(pJstring);
         LOGE("%s", strcat(VAR1, VAR2));
-//        free(VAR1);
-//        free(VAR2);
-//        free(&pstring);
-//        free(&pJstring);
-//        pstring=NULL;
-////        pJstring=NULL;
-//        VAR1=NULL;
-//        VAR2=NULL;
     }
 }
 

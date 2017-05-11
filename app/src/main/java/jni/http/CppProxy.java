@@ -1,6 +1,8 @@
 package jni.http;
 
 
+import android.support.annotation.WorkerThread;
+
 import com.vicky.libcurl.BuildConfig;
 
 import org.json.JSONObject;
@@ -21,9 +23,12 @@ public class CppProxy {
 
     public static void init() {
     }
+    @WorkerThread
     public static native String httpFromJNITest();
+    @WorkerThread
     public static native String httpGET(String url,String params,String header);
-    public static native JSONObject httpPOST(String url,JSONObject params,String header);
+    @WorkerThread
+    public static native String httpPOST(String url,JSONObject params,String header);
 
     public static native byte[] HmacSha256(byte[] data);
 }

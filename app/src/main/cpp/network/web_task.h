@@ -3,6 +3,9 @@
 
 #include <string>
 #include "curl/curl.h"
+#include "../Utils/log.h"
+#include "../Utils/CDebuger.h"
+#include "../Utils/StringUtil.h"
 
 
 typedef struct _web_buffer_t {
@@ -22,27 +25,47 @@ void dump(const char *text,
     size_t c;
     unsigned int width = 0x10;
 
-    fprintf(stream, "%s, %10.10ld bytes (0x%8.8lx)\n",
+//    fprintf(stream, "%s, %10.10ld bytes (0x%8.8lx)\n",
+//            text, (long) size, (long) size);
+    char buf[1024];
+    sprintf(buf,"%s, %10.10ld bytes (0x%8.8lx)\n",
             text, (long) size, (long) size);
+    std::string string1(buf);
+    printMsg(string2char(string1));
+
 
     for (i = 0; i < size; i += width) {
         fprintf(stream, "%4.4lx: ", (long) i);
+        char buf1[30];
+        sprintf(buf1,"%4.4lx: ", (long) i);
+        std::string string11(buf1);
+        printMsg(string2char(string11));
 
+        std::string merge=NULL;
         /* show hex to the left */
         for (c = 0; c < width; c++) {
-            if (i + c < size)
+            if (i + c < size){
                 fprintf(stream, "%02x ", ptr[i + c]);
-            else
+                char buf2[30];
+                sprintf(buf2,"%02x ", ptr[i + c]);
+                std::string string12(buf2);
+                merge+=string12;
+                printMsg(string2char(merge));
+            }
+            else{
+                merge+="   ";
                 fputs("   ", stream);
+            }
         }
 
         /* show data on the right */
         for (c = 0; (c < width) && (i + c < size); c++) {
             char x = (ptr[i + c] >= 0x20 && ptr[i + c] < 0x80) ? ptr[i + c] : '.';
+            merge+=x;
             fputc(x, stream);
         }
-
         fputc('\n', stream); /* newline */
+        printMsg(string2char(merge));
     }
 }
 
@@ -56,7 +79,8 @@ int my_trace(CURL *handle, curl_infotype type,
 
     switch (type) {
         case CURLINFO_TEXT:
-            fprintf(stderr, "== Info: %s", data);
+            printMsg2("== Info:", data);
+//            fprintf(stderr, "== Info: %s", data);
         default: /* in case a new one is introduced to shock us */
             return 0;
 
@@ -124,7 +148,7 @@ public:
 
     void userAgent(const char *agent);
 
-    void addHeader(const char *header);
+    void addHeader(JNIEnv *env,_jobjectArray * header);
 
     void setDebugMode(bool debug);
 

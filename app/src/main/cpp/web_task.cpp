@@ -5,6 +5,7 @@
 #include <iostream>
 #include "network/web_task.h"
 #include "Utils/CDebuger.h"
+#include "Utils/StringUtil.h"
 
 
 static int get_filesize(const char *fpath) {
@@ -286,11 +287,23 @@ void WebTask::userAgent(const char *agent) {
  * 添加请求头
  * @param header
  */
-void WebTask::addHeader(const char *header) {
-    struct curl_slist *list = new curl_slist;
+void WebTask::addHeader(JNIEnv *env, jobjectArray header) {
     try {
-        list = curl_slist_append(list, header);
-        curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, list);
+        curl_slist *plist = NULL;
+        jsize alen = (env)->GetArrayLength(header);
+        //给以维数据填充值  
+        for (int i = 0; i < alen; i++) {
+            jstring tmp = NULL; /* make sure it is large enough! */
+            //第i个元素值  
+            tmp = (jstring) env->GetObjectArrayElement(header, i);
+            char *arg = jstring2char(env, tmp);
+            curl_slist_append(plist, arg);
+            //删除临时元素iarr数组
+            env->DeleteLocalRef(tmp);
+        }
+        curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, plist);
+        if (plist != NULL)
+            curl_slist_free_all(plist);
     } catch (std::exception *e) {
         const char *w = e->what();
         printMsg(w);

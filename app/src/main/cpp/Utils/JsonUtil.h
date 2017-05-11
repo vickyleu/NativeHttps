@@ -46,7 +46,7 @@ void printJson(Json::Value v) {
 }
 
 void buildingJsonObject(JNIEnv *env, jobject json, Json::Value v) {
-    if (json == NULL || v == NULL) {
+    if (json == NULL /*|| v == NULL*/) {
         printMsg("请勿传入空值结构体或空的Json容器");
         return;
     }

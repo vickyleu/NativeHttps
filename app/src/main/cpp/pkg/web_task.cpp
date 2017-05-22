@@ -4,8 +4,6 @@
 #include <fcntl.h>
 #include <iostream>
 #include "../network/web_task.h"
-#include "../Utils/CDebuger.h"
-#include "../Utils/StringUtil.h"
 
 
 static int get_filesize(const char *fpath) {
@@ -132,6 +130,7 @@ void WebTask::AddPostPicture(const char *item_name, const char *file_path, const
 }
 
 int WebTask::DoGetString() {
+
     if (m_formpost)
         curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, m_formpost);
 
@@ -261,9 +260,13 @@ const char *WebTask::GetFilePath() {
  */
 void WebTask::useSSl(bool used) {
     if (used) {
-//        curl_easy_setopt(m_curl, CURLOPT_USE_SSL, used);
-        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(m_curl, CURLOPT_USE_SSL, used);
+//        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+//        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(m_curl, CURLOPT_SSLVERSION, 3); //设定SSL版本
+        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, false);
+    } else{
+        curl_easy_setopt(m_curl, CURLOPT_USE_SSL, used);
     }
 }
 

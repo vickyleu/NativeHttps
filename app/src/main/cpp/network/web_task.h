@@ -87,7 +87,7 @@ int my_trace(CURL *handle, curl_infotype type,
             break;
     }
 
-    dump(text,  (unsigned char *) data, size);
+//    dump(text,  (unsigned char *) data, size);
     return 0;
 }
 

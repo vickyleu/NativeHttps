@@ -3,15 +3,15 @@
 //
 //
 
+#include <malloc.h>
 #include "../Utils/log.h"
 #include "../Utils/StringUtil.h"
-class StringFormatException: public exception
-{
-    virtual const char* what() const throw()
-    {
+
+class StringFormatException : public exception {
+    virtual const char *what() const throw() {
         return "String Format not a valid arguments";
     }
-}formatException;
+} formatException;
 
 static void trim(char *str) {
     char *p = str + strlen(str) - 1;
@@ -66,7 +66,7 @@ string ch2str(const char *cs) {
 */
 char *jstring2char(JNIEnv *env, jstring jstr) {
     char *rtn = NULL;
-    if(jstr==NULL){
+    if (jstr == NULL) {
         throw formatException;
     }
     jclass clsstring = env->FindClass("java/lang/String");
@@ -93,6 +93,7 @@ string double2String(double value) {
     string str = buffer;
     return str;
 }
+
 string int2String(int value) {
     char buffer[20];
     sprintf(buffer, "%d", value);
@@ -103,6 +104,7 @@ string int2String(int value) {
 char *currentTime() {
     return string2char(tm2String());
 }
+
 /**
  * 把java的string转化成c的字符串
  */
@@ -131,14 +133,12 @@ string Jstring2string(JNIEnv *env, jstring jstr) {
 jstring Str2Jstring(JNIEnv *env, const char *pStr) {
     int strLen = strlen(pStr);
     jclass jstrObj = env->FindClass("java/lang/String");
-    jmethodID methodId = env ->GetMethodID(jstrObj, "<init>", "([BLjava/lang/String;)V");
-    jbyteArray byteArray = env ->NewByteArray(strLen);
-    jstring encode = env ->NewStringUTF("utf-8");
-    env ->SetByteArrayRegion(byteArray, 0, strLen, (jbyte *) pStr);
-    return (jstring) env ->NewObject(jstrObj, methodId, byteArray, encode);
+    jmethodID methodId = env->GetMethodID(jstrObj, "<init>", "([BLjava/lang/String;)V");
+    jbyteArray byteArray = env->NewByteArray(strLen);
+    jstring encode = env->NewStringUTF("utf-8");
+    env->SetByteArrayRegion(byteArray, 0, strLen, (jbyte *) pStr);
+    return (jstring) env->NewObject(jstrObj, methodId, byteArray, encode);
 }
-
-
 
 
 /**
@@ -150,7 +150,7 @@ string tm2String() {
     time_t now = time(NULL);
     tm *value = localtime(&now);
     char buffer[40];
-    strftime(buffer,sizeof(buffer),"%Y年%m月%d日 %H时%M分%S秒",value);
+    strftime(buffer, sizeof(buffer), "%Y年%m月%d日 %H时%M分%S秒", value);
     string str(buffer);
 //    free(value);
     return str;

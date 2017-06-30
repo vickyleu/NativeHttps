@@ -43,12 +43,18 @@ add_library(jssl SHARED   IMPORTED )
 set_target_properties(jssl PROPERTIES IMPORTED_LOCATION
 ${libcurl_DIR}/libs/${ANDROID_ABI}/libssl.so)
 
-add_library(jcurl SHARED   IMPORTED )
+add_library(jzbar  SHARED   IMPORTED )
+#增加so文件动态共享库，${ANDROID_ABI}表示so文件的ABI类型的路径
+set_target_properties(jzbar PROPERTIES IMPORTED_LOCATION
+${libcurl_DIR}/../libzbar/libs/${ANDROID_ABI}/libZbar.so)
+
+
+add_library(jcurl  SHARED   IMPORTED )
 #增加so文件动态共享库，${ANDROID_ABI}表示so文件的ABI类型的路径
 set_target_properties(jcurl PROPERTIES IMPORTED_LOCATION
 ${libcurl_DIR}/libs/${ANDROID_ABI}/libcurl.so)
 
-
+message(STATUS "jcurl path is: " ${libcurl_DIR}/libs/${ANDROID_ABI}/libcurl.so)
 ###################################################################################
 ###################################################################################
 ###################################################################################
@@ -78,12 +84,23 @@ add_library (native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
 #增加include包含的路径所有头文件
 include_directories(${libcurl_DIR}/)
 
+##增加gcc警告和调试标志
+set(CMAKE_CXX_FLAGS " -fstack-check    ${CMAKE_CXX_FLAGS}")
+
 #生成链接动态库
 target_link_libraries(native
 ${log-lib}
- jcrypto
  jssl
+ jcrypto
  jcurl
  jsonlib
+ jzbar
  )
+
+#自定义命令 因为AndroidStudio漏洞的原因,将预编译的动态库复制到预编译目录中,等待打包到apk中
+add_custom_command(TARGET native  POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory  "${libcurl_DIR}/libs/${ANDROID_ABI}"  $<TARGET_FILE_DIR:native>)
+add_custom_command(TARGET native  POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory  "${libcurl_DIR}/../libzbar/libs/${ANDROID_ABI}"  $<TARGET_FILE_DIR:native>)
+
 

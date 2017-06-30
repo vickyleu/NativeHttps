@@ -18,8 +18,23 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content);
 
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+jstring Java_jni_http_CppProxy_AesDecryptUnwork(JNIEnv *env, jclass type, jstring cipher,jstring key);
+jstring Java_jni_http_CppProxy_AesEncryptUnwork(JNIEnv *env, jclass type, jstring plainText,jstring key);
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
+jstring Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_);
+jstring Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_);
+
+
+
+int aes_encrypt(char *in, char *key, char *out);
+int aes_decrypt(char *in, char *key, char *out);
 jstring toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name);
 
 jstring Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,

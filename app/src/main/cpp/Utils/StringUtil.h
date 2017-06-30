@@ -16,6 +16,9 @@ static const char *const JSON_ARRAY ="org/json/JSONArray";
 
 
 static void trim(char *str);
+int ascii2hex(char* ascii, char* hex);
+jstring char2Jstring(JNIEnv* envPtr, char *src);
+
 
 const char *ss(string pJstring);
 

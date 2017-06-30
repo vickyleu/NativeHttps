@@ -1,10 +1,99 @@
 //
 // Created by Administrator on 2017/5/11.
 //
-
 #include "pkg/header/native.h"
+#include "pkg/header/CryptoUtils.h"
+#include "pkg/header/AesUtil.h"
 
-//http://www.droidsec.cn/%E5%B8%B8%E8%A7%81android-native%E5%B4%A9%E6%BA%83%E5%8F%8A%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0/
+jstring
+Java_jni_http_CppProxy_AesEncryptUnwork(JNIEnv *env, jclass type, jstring plainText_, jstring key_) {
+    //将需要加密的字符串转化为const char*类型
+    const char *plainText = env->GetStringUTFChars(plainText_, 0);
+    //密钥字符串转化成char*
+    char *key = (char *)env->GetStringUTFChars(key_, 0);
+    int i;
+    char source[LEN];
+    char dst[LEN];
+    memset((char *) source, 0, LEN);
+    memset((char *) dst, 0, LEN);
+    strcpy(source, plainText);
+    if (!aes_encrypt(source, key, dst))//(in,key,out)//加密
+    {
+        printf("encrypt error\n");
+    }
+    char t[3];
+    string tempStr;
+    int realLen = LEN;
+    for (i = LEN -
+             1; !dst[i]; i--) {// 加密结果中可能包含‘\0’，而‘\0’是C++中字符串的结尾标志，所以为了保证‘\0’之后的密文可以被取出，从数组尾部开始往前，第一个不是‘\0’的元素就是我们要取的最后一个值
+        realLen = i;
+    }
+    for (i = 0; i <= realLen - 1; i += 1) {//将加密结果转化为十六进制，拼接成字符串输出
+        sprintf(t, "%x", (unsigned char) dst[i]);
+        if ((unsigned char) dst[i] <= 0x0f) {
+            tempStr = tempStr + "0" + t;
+        } else {
+            tempStr = tempStr + t;
+        }
+
+    }
+    char *data = (char *) tempStr.data();
+
+    env->ReleaseStringUTFChars(plainText_, plainText);
+    env->ReleaseStringUTFChars(key_, key);
+
+    return env->NewStringUTF(data);
+}
+jstring
+Java_jni_http_CppProxy_AesDecryptUnwork(JNIEnv *env, jclass type, jstring cipherText_, jstring key_) {
+    const char *plainText = env->GetStringUTFChars(cipherText_, 0);
+    char *key = (char *) env->GetStringUTFChars(key_, 0);
+
+    int i;
+    char source[LEN];
+    char dst[LEN];
+    memset((char *) source, 0, LEN);
+    memset((char *) dst, 0, LEN);
+    strcpy(dst, plainText);
+    char data[LEN];
+    int j = 0;
+    memset((char *) data, 0, LEN);
+    int len = (int) strlen(dst);
+    for (i = 0; dst[i]; i++) {
+        if ((i + 1) % 2 == 0) {//加密结果中字符串两两分隔组成十六进制转化为具体值存入数组以供解密
+            data[j] = (char) (ascii2hex(&dst[i - 1], (char *) 1) * 16 + ascii2hex(&dst[i], (char *) 1));
+            j++;
+        }
+    }
+    if (!aes_decrypt(data, key, source)) {
+        printf("decrypt error\n");
+    }
+    env->ReleaseStringUTFChars(cipherText_, plainText);
+    env->ReleaseStringUTFChars(key_, key);
+
+    return env->NewStringUTF(source);
+}
+
+
+
+
+
+jstring Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
+    const char *in=  (env)->GetStringUTFChars(str_, JNI_FALSE);
+    char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY);
+    (env)->ReleaseStringUTFChars(str_, in);
+    return (env)->NewStringUTF(baseResult);
+}
+
+jstring Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
+    const char *str = (env)->GetStringUTFChars(str_, JNI_FALSE);
+    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(str,AES_KEY);
+    (env)->ReleaseStringUTFChars(str_, str);
+//    return (*env)->NewStringUTF(env, desResult);
+    //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
+    return char2Jstring(env,desResult);
+}
+
 jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) {
     unsigned char key[] = {0x6B, 0x65, 0x79};
 
@@ -14,6 +103,7 @@ jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArra
     // get data from java array
     jbyte *data = env->GetByteArrayElements(content, NULL);
     size_t dataLength = env->GetArrayLength(content);
+
 
     HMAC(EVP_sha256(),
          key, 3,
@@ -28,7 +118,6 @@ jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArra
     env->SetByteArrayRegion(return_val, 0, result_len, (jbyte *) result);
     return return_val;
 }
-
 
 jstring toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
     jboolean isCopy = 0;
@@ -65,14 +154,12 @@ jstring Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, 
     WebTask task;
     task.SetUrl(url);
     task.SetConnectTimeout(5);
-    task.AddPostString("username", username);
-    task.AddPostString("password", password);
-    task.AddPostString("email", email);
-
-
-
+//    task.AddPostString("username", username);
+//    task.AddPostString("password", password);
+//    task.AddPostString("email", email);
     env->ReleaseStringUTFChars(url_, url);
     env->ReleaseStringUTFChars(header_, header);
+    return env->NewStringUTF("");
 }
 
 

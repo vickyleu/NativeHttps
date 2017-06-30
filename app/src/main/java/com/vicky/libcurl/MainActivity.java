@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.TextView;
 
 import jni.http.CppProxy;
+import jni.http.Qrcode.zbar.Config;
+import jni.http.Qrcode.zbar.ImageScanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,8 +21,17 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         final TextView tv = (TextView) findViewById(R.id.sample_text);
         byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
+
+        String result2 = CppProxy.AesEncrypt("你们好啊");
+        Log.e("AesEncrypt",result2);
+
+        String result3 = CppProxy.AesDecrypt(result2);
+
+        Log.e("AesEncrypt",result3);
         final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
         Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
+        tv.setText(result3);
+
 
 //        new Thread(new Runnable() {
 //            @Override
@@ -35,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //                });
 //            }
 //        }).start();
-
+//
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -45,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "onCreate: " + ss.toString());
             }
         }).start();
+//
+//        ImageScanner mScanner = new ImageScanner();
+//        mScanner.setConfig(0, Config.X_DENSITY, 3);
+//        mScanner.setConfig(0, Config.Y_DENSITY, 3);
 
 
     }

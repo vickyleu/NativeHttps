@@ -17,7 +17,7 @@ android {
                 cppFlags "-std=c++11 -frtti -fexceptions -DJSON_IS_AMALGAMATION "
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
+                arguments "-DCMAKE_VERBOSE_MAKEFILE=TRUE"// , '-DANDROID_STL=gnustl_static'
 //                // Sets optional flags for the C compiler.
 //                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
             }
@@ -27,6 +27,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            jniDebuggable true
         }
     }
 

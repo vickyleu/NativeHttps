@@ -7,6 +7,8 @@
 #include "../Utils/log.h"
 #include "../Utils/StringUtil.h"
 
+typedef unsigned char BYTE;
+
 class StringFormatException : public exception {
     virtual const char *what() const throw() {
         return "String Format not a valid arguments";
@@ -24,6 +26,19 @@ static void trim(char *str) {
             break;
         }
     }
+}
+
+jstring char2Jstring(JNIEnv* envPtr, char *src) {
+    JNIEnv env = *envPtr;
+    jsize len = strlen(src);
+    jclass clsstring = (&env)->FindClass("java/lang/String");
+    jstring strencode = (&env)->NewStringUTF("UTF-8");
+    jmethodID mid = (&env)->GetMethodID(clsstring, "<init>",
+                                        "([BLjava/lang/String;)V");
+    jbyteArray barr = (&env)->NewByteArray(len);
+    (&env)->SetByteArrayRegion(barr, 0, len, (jbyte*) src);
+
+    return (jstring) (&env)->NewObject(clsstring, mid, barr, strencode);
 }
 
 
@@ -50,6 +65,22 @@ string ch2str(const char *cs) {
     string s(cs);
     return s;
 }
+
+int ascii2hex(char *ascii, char *hex) {
+    int i, len = strlen(ascii);
+    char chHex[] = "0123456789ABCDEF";
+
+    for (i = 0; i < len; i++) {
+        hex[i * 3] = chHex[((BYTE) ascii[i]) >> 4];
+        hex[i * 3 + 1] = chHex[((BYTE) ascii[i]) & 0xf];
+        hex[i * 3 + 2] = ' ';
+    }
+
+    hex[len * 3] = '\0';
+
+    return len * 3;
+}
+
 
 /**
 

@@ -10,6 +10,9 @@
 #ifndef NDEBUG
 #define Verify(x, r)  assert((x) && r)
 
+
+
+
 #else
 #define Verify(x, r)  ((void)(x))
 

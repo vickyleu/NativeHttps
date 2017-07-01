@@ -133,17 +133,16 @@ char *base64_decode(const char *data, int data_len) {
         }
     }
     *f = '\0';
-    size_t siz = strlen(ret);
-    char buf[siz];
-    memset(buf,0,siz);
-    sprintf(buf, "%s", ret);
-    char *out = (char *) malloc(siz);
-    memset(out,0,siz);
-    sprintf(out, "%s", buf);
-    printMsg(out);
-//    free(buf);
-    free(f);
-    return out;
+//    size_t siz = strlen(ret);
+//    char buf[siz];
+//    memset(buf,0,siz);
+//    sprintf(buf, "%s", ret);
+//    char *out = (char *) malloc(siz);
+//
+//    memset(out,0,siz);
+//    sprintf(out, "%s", buf);
+//    free(f);
+    return ret;
 }
 
 

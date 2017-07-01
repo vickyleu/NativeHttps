@@ -572,9 +572,7 @@ char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
     printMsg2("输入:",in);
     char *var = base64_decode(in, (int) strlen(in));
-    printMsg(">>>>>>>>>>>>>>>");
     uint8_t *inputDesBase64 = (uint8_t*)var;
-    printMsg(">>>>>>>>>>>>>>>");
     const size_t inputLength = (strlen(in) / 4) * 3;
     uint8_t *out = (uint8_t*)malloc(inputLength);
     memset(out, 0, inputLength);
@@ -615,9 +613,11 @@ char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
         out[noZeroIndex] = '\n';
     }
     printMsg2("解密结果:",ch2str((char*)out));
-
+    char *ret=(char *)malloc(inputLength);
+    memset(ret,0,inputLength);
+    sprintf(ret, "%s", out);
     free(inputDesBase64);
-    return (char *) out;
+    return ret;
 }
 
 int *findPaddingIndex(uint8_t *str, size_t length) {

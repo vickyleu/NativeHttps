@@ -6,6 +6,7 @@
 #include <malloc.h>
 #include "../Utils/log.h"
 #include "../Utils/StringUtil.h"
+#include "../Utils/CDebuger.h"
 
 typedef unsigned char BYTE;
 
@@ -29,16 +30,13 @@ static void trim(char *str) {
 }
 
 jstring char2Jstring(JNIEnv* envPtr, char *src) {
-    JNIEnv env = *envPtr;
-    jsize len = strlen(src);
-    jclass clsstring = (&env)->FindClass("java/lang/String");
-    jstring strencode = (&env)->NewStringUTF("UTF-8");
-    jmethodID mid = (&env)->GetMethodID(clsstring, "<init>",
-                                        "([BLjava/lang/String;)V");
-    jbyteArray barr = (&env)->NewByteArray(len);
-    (&env)->SetByteArrayRegion(barr, 0, len, (jbyte*) src);
-
-    return (jstring) (&env)->NewObject(clsstring, mid, barr, strencode);
+    jsize len = (size_t)strlen(src);
+    jclass clsstring = (envPtr)->FindClass("java/lang/String");
+    jstring strencode = (envPtr)->NewStringUTF("UTF-8");
+    jmethodID mid = (envPtr)->GetMethodID(clsstring, "<init>", "([BLjava/lang/String;)V");
+    jbyteArray barr = (envPtr)->NewByteArray(len);
+    (envPtr)->SetByteArrayRegion(barr, 0, len, (jbyte*) src);
+    return (jstring) (envPtr)->NewObject(clsstring, mid, barr, strencode);
 }
 
 

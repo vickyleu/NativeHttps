@@ -29,13 +29,17 @@ static const unsigned char HEX[16] = {0x10, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 
 static const uint8_t AES_KEY[] = "1234567890abcdef";
 #if defined(ECB) && ECB
 
-void AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output);
+JNIEXPORT void JNICALL
+AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output);
 
-void AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output);
+JNIEXPORT void JNICALL
+AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output);
 
-char *AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key);
+JNIEXPORT char *JNICALL
+AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key);
 
-char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key);
+JNIEXPORT char *JNICALL
+AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key);
 
 int *findPaddingIndex(uint8_t *str, size_t length);
 

@@ -6,6 +6,7 @@
 #define NATIVEHTTPS_BASE64_H
 
 #include <stddef.h>
+#include <jni.h>
 
 struct MyString {
     char *data;
@@ -13,9 +14,11 @@ struct MyString {
 };
 static const char base[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-char *base64_encode(const char *var1, int var2);
+JNIEXPORT char *JNICALL
+base64_encode(const char *var1, int var2);
 
-char *base64_decode(const char *var1, int var2);
+JNIEXPORT char * JNICALL
+base64_decode(const char *var1, int var2);
 
 char find_pos(char var);
 

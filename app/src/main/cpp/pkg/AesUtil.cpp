@@ -471,8 +471,8 @@ static void BlockCopy(uint8_t *output, uint8_t *input) {
 /*****************************************************************************/
 #if defined(ECB) && ECB
 
-
-void AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
+JNIEXPORT void JNICALL
+AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
     // Copy input to output, and work in-memory on output
     BlockCopy(output, input);
     state = (state_t *) output;
@@ -484,7 +484,8 @@ void AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
     Cipher();
 }
 
-void AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
+JNIEXPORT void JNICALL
+AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
     // Copy input to output, and work in-memory on output
     BlockCopy(output, input);
     state = (state_t *) output;
@@ -499,14 +500,15 @@ void AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
 /**
  * 不定长加密,pkcs5padding/pkcs7padding
  */
-char *AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
+JNIEXPORT char *JNICALL
+AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
 
     int inLength = (int) strlen(in);//输入的长度
     int remainder = inLength % 16;
-    printMsg2("输入: ",in);
+    printMsg2("输入: ", in);
 //    LOGEX(in,inLength);
-    printMsg2("输入,转码:",ch2str(base64_encode(in, inLength)));
-    printMsg2("key:",ch2str((char *) key));
+    printMsg2("输入,转码:", ch2str(base64_encode(in, inLength)));
+    printMsg2("key:", ch2str((char *) key));
     uint8_t *paddingInput;
 //    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
     int paddingInputLengt = 0;
@@ -559,7 +561,8 @@ char *AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
 /**
  * 不定长解密,pkcs5padding/pkcs7padding
  */
-char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
+JNIEXPORT char *JNICALL
+AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
     //加密前:1
     //key:1234567890abcdef
     //加密后:qkrxxA9fIF636aITDRJhcg==
@@ -570,20 +573,26 @@ char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 //    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";//57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
 //    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
-    printMsg2("输入:",in);
-    char *var = base64_decode(in, (int) strlen(in));
-    uint8_t *inputDesBase64 = (uint8_t*)var;
+    printMsg2("输入:", in);
+    char *var = base64_decode(in,(int) strlen(in));
+//    size_t size = strlen(var);
+//    char *b64Out= (char *) malloc(size);
+//    memset(b64Out,0,size);
+    uint8_t *inputDesBase64 = (uint8_t *) var;
     const size_t inputLength = (strlen(in) / 4) * 3;
-    uint8_t *out = (uint8_t*)malloc(inputLength);
+    uint8_t *out = (uint8_t *) malloc(inputLength);
     memset(out, 0, inputLength);
+
     size_t count = inputLength / 16;
     if (count <= 0) {
         count = 1;
     }
     size_t i;
+
     for (i = 0; i < count; ++i) {
         AES128_ECB_decrypt(inputDesBase64 + i * 16, key, out + i * 16);
     }
+
     /**
      *  接下来的工作就把末尾的padding去掉T_T
      *  "abcdefghijklmnop\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\0\0\0\0
@@ -592,7 +601,9 @@ char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
      *  "1\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f"
      *  To "1\n"
      */
+
     int *result = findPaddingIndex(out, inputLength - 1);
+
     int offSetIndex = result[0];
     int lastChar = result[1];
     //检查是不是padding的字符,然后去掉
@@ -609,12 +620,14 @@ char *AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
             out[noZeroIndex - lastChar] = '\n';
             memset(out + noZeroIndex - lastChar + 1, 0, lastChar - 1);
         }
+
     } else {
         out[noZeroIndex] = '\n';
+
     }
-    printMsg2("解密结果:",ch2str((char*)out));
-    char *ret=(char *)malloc(inputLength);
-    memset(ret,0,inputLength);
+    printMsg2("解密结果:", ch2str((char *) out));
+    char *ret = (char *) malloc(inputLength);
+    memset(ret, 0, inputLength);
     sprintf(ret, "%s", out);
     free(inputDesBase64);
     return ret;

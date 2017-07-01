@@ -85,7 +85,7 @@ add_library (native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
 include_directories(${libcurl_DIR}/)
 
 ##增加gcc警告和调试标志
-set(CMAKE_CXX_FLAGS " -fstack-check    ${CMAKE_CXX_FLAGS}")
+#set(CMAKE_CXX_FLAGS "-fstack-protector-all   ${CMAKE_CXX_FLAGS}")
 
 #生成链接动态库
 target_link_libraries(native

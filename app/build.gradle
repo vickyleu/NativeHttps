@@ -14,7 +14,7 @@ android {
             cmake {
                 abiFilters  'armeabi','armeabi-v7a','mips','x86','x86_64','arm64-v8a'//,'mips64'
                 // Sets a flag to enable format macro constants for the C++ compiler.
-                cppFlags "-std=c++11 -frtti -fexceptions -DJSON_IS_AMALGAMATION "
+                cppFlags "-std=c++11 -frtti -fexceptions -DJSON_IS_AMALGAMATION -fstack-protector-all"
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
                 arguments "-DCMAKE_VERBOSE_MAKEFILE=TRUE"// , '-DANDROID_STL=gnustl_static'

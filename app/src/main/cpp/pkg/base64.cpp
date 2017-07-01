@@ -4,11 +4,11 @@
 
 #include "header/base64.h"
 #include "../Utils/CDebuger.h"
-#include "../Utils/StringUtil.h"
 #include <stdlib.h>
 #include <cstring>
 
-char *base64_encode(const char *data, int data_len) {
+JNIEXPORT char *JNICALL
+base64_encode(const char *data, int data_len) {
     //int data_len = strlen(data);
     int prepare = 0;
     int ret_len;
@@ -63,16 +63,17 @@ char *base64_encode(const char *data, int data_len) {
 }
 
 /* */
- char find_pos(char ch) {
+char find_pos(char ch) {
     char *ptr = (char *) strrchr(base, ch);//the last position (the only) in base[]
     return (char) (ptr - base);
 }
 
 /* */
-char *base64_decode(const char *data, int data_len) {
+JNIEXPORT char * JNICALL
+base64_decode(const char *data, int data_len) {
     int ret_len = (data_len / 4) * 3;
     int equal_count = 0;
-    char *ret = NULL;
+    char *ret=NULL;
     char *f = NULL;
     int tmp = 0;
     int temp = 0;
@@ -104,12 +105,14 @@ char *base64_decode(const char *data, int data_len) {
         default:
             break;
     }
-    ret = (char *) malloc((size_t) ret_len);
+    size_t len = (size_t) ret_len;
+    ret = (char *) malloc(len);
     if (ret == NULL) {
         printf("No enough memory.\n");
         exit(0);
     }
-    memset(ret, 0, (size_t) ret_len);
+    memset(ret, 0, len);
+
     f = ret;
     while (tmp < (data_len - equal_count)) {
         temp = 0;
@@ -142,6 +145,7 @@ char *base64_decode(const char *data, int data_len) {
 //    memset(out,0,siz);
 //    sprintf(out, "%s", buf);
 //    free(f);
+//    return 0;
     return ret;
 }
 

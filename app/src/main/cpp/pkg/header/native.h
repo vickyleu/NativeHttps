@@ -18,34 +18,31 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+JNIEXPORT jbyteArray JNICALL
+ Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content);
 
-jbyteArray Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content);
-
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-jstring Java_jni_http_CppProxy_AesDecryptUnwork(JNIEnv *env, jclass type, jstring cipher,jstring key);
-jstring Java_jni_http_CppProxy_AesEncryptUnwork(JNIEnv *env, jclass type, jstring plainText,jstring key);
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-
-jstring Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_);
-jstring Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_);
+JNIEXPORT jstring JNICALL
+ Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_);
+JNIEXPORT jstring JNICALL
+ Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_);
 
 
-
-int aes_encrypt(char *in, char *key, char *out);
-int aes_decrypt(char *in, char *key, char *out);
-jstring toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name);
-
-jstring Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
+JNIEXPORT int JNICALL
+aes_encrypt(char *in, char *key, char *out);
+JNIEXPORT int JNICALL
+ aes_decrypt(char *in, char *key, char *out);
+JNIEXPORT jstring JNICALL
+ toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name);
+JNIEXPORT jstring JNICALL
+ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                        jobjectArray header_);
-
-jstring Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
+JNIEXPORT jstring JNICALL
+ Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
                                         jstring header_);
-
-jstring Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this */);
-
-std::string nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
+JNIEXPORT jstring JNICALL
+ Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this */);
+JNIEXPORT std::string JNICALL
+ nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
     if (url == "") {
         return "URL请求不正确";
     }

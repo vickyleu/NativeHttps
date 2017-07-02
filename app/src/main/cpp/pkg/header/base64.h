@@ -22,15 +22,18 @@ base64_encode(const char *var1, int var2);
 JNIEXPORT char * JNICALL
 base64_decode(const char *var1, int var2);
 
-
-//char* translate3to4(char a,char b,char c);
-//char* translate3to4(char a,char b);
-//char* translate3to4(char a);
-//char num2base64char(char n);
-char* translate4to3(char a,char b,char c,char d);
-char base64char2num(char b);
 JNIEXPORT char * JNICALL
 base64_decode2(const char* str);
+JNIEXPORT char * JNICALL
+base64_encode2(const char* str);
+
+char* translate_3to_4_3(char a, char b, char c);
+char* translate_3to_4_2(char a, char b);
+char* translate_3to_4_1(char a);
+char num2base64char(char n);
+char* translate_3to_4_4(char a, char b, char c, char d);
+char base64char2num(char b);
+
 
 char find_pos(char var);
 #ifdef __cplusplus

@@ -35,13 +35,13 @@ NOTE:   String length must be evenly divisible by 16byte (str_len % 16 == 0)
 /*****************************************************************************/
 /* Defines:                                                                  */
 /*****************************************************************************/
-// The number of columns comprising a state in AES. This is a constant in AES. Value=4
+// The number of columns comprising a state in AesUtils. This is a constant in AesUtils. Value=4
 #define Nb 4
 // The number of 32 bit words in a key.
 #define Nk 4
 // Key length in bytes [128 bit]
 #define KEYLEN 16
-// The number of rounds in AES Cipher.
+// The number of rounds in AesUtils Cipher.
 #define Nr 10
 
 // jcallan@github points out that declaring Multiply as a function
@@ -62,7 +62,7 @@ static state_t *state;
 // The array that stores the round keys.
 static uint8_t RoundKey[176];
 
-// The Key input to the AES Program
+// The Key input to the AesUtils Program
 static const uint8_t *Key;
 #if defined(CBC) && CBC
 // Initial Vector used only for CBC mode
@@ -480,7 +480,7 @@ AES128_ECB_encrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
     Key = key;
     KeyExpansion();
 
-    // The next function call encrypts the PlainText with the Key using AES algorithm.
+    // The next function call encrypts the PlainText with the Key using AesUtils algorithm.
     Cipher();
 }
 
@@ -506,7 +506,9 @@ AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
     int remainder = inLength % 16;
     printMsg2("输入: ", in);
 //    LOGEX(in,inLength);
-    printMsg2("输入,转码:", ch2str(base64_encode(in, inLength)));
+
+    printMsg2("输入,转码:", ch2str(base64_encode2(in)));
+//    printMsg2("输入,转码:", ch2str(base64_encode(in, inLength)));
     printMsg2("key:", ch2str((char *) key));
     uint8_t *paddingInput;
 //    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
@@ -568,11 +570,16 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 //    in="m74nCuZkzK13anBQRDWeOw==";//123456
 //    in="qkrxxA9fIF636aITDRJhcg==";//1
 //    in="LuD5WoRRcHq1tuEWZQHLHwLexWUsAhX5OvafAJ8PbVg=";//abcdefghijklmnop
-//    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";//57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
-//    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
-//    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
+//    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";
+// 57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
+//    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";
+//    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+
+// f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy
+// 1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";
+
+    // 编码原理:将3个字节转换成4个字节
     printMsg2("输入:", in);
-    char *var =base64_decode2(in);
+    char *var = base64_decode2(in);
 //    char *var = base64_decode(in,(int) strlen(in));
 //    size_t size = strlen(var);
 //    char *b64Out= (char *) malloc(size);
@@ -630,7 +637,7 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
     memset(ret, 0, inputLength);
     sprintf(ret, "%s", out);
     free(inputDesBase64);
-    inputDesBase64=NULL;
+    inputDesBase64 = NULL;
     return ret;
 }
 

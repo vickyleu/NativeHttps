@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string>
 #include "header/base64.h"
+#include "../Utils/CDebuger.h"
 
 JNIEXPORT char *JNICALL
 base64_encode(const char *data, int data_len) {
@@ -148,6 +149,52 @@ base64_decode(const char *data, int data_len) {
 
 
 JNIEXPORT char * JNICALL
+base64_encode2(const char* str){
+    int len = (int) strlen(str);
+    int rel_len=(len/3)*4+4+1;
+    char* rel;
+    if(len<3){
+        rel = (char*)malloc(5*sizeof(char));
+    }else{
+        rel = (char*)malloc(rel_len*sizeof(char));
+    }
+    //LOGD("num2base64char %d",rel_len);
+    *(rel+rel_len-1) = '\0';
+    *(rel+rel_len-2) = '\0';
+    *(rel+rel_len-3) = '\0';
+    *(rel+rel_len-4) = '\0';
+    *(rel+rel_len-5) = '\0';
+    int i=0;
+    int j=0;
+    //int n=0;
+    for(i=0;i<len;){
+        char* encode;
+        if(i+2<=len-1){
+            encode = translate_3to_4_3(*(str + i), *(str + i + 1), *(str + i + 2));
+            *(rel+j) = num2base64char(*encode);
+            *(rel+j+1) = num2base64char(*(encode+1));
+            *(rel+j+2) = num2base64char(*(encode+2));
+            *(rel+j+3) = num2base64char(*(encode+3));
+        }else if(i == len-1){
+            encode = translate_3to_4_1(*(str + i));
+            *(rel+j) = num2base64char(*encode);
+            *(rel+j+1) = num2base64char(*(encode+1));
+            *(rel+j+2) = num2base64char(*(encode+2));
+            *(rel+j+3) = num2base64char(*(encode+3));
+        }else if(i+1 == len-1){
+            encode = translate_3to_4_2(*(str + i), *(str + i + 1));
+            *(rel+j) = num2base64char(*encode);
+            *(rel+j+1) = num2base64char(*(encode+1));
+            *(rel+j+2) = num2base64char(*(encode+2));
+            *(rel+j+3) = num2base64char(*(encode+3));
+        }
+        j+=4;
+        i+=3;
+        free(encode);
+    }
+    return rel;
+}
+JNIEXPORT char * JNICALL
 base64_decode2(const char* str){
     int len = (int) strlen(str);
     int rel_len = (len/4)*3+1;
@@ -157,7 +204,10 @@ base64_decode2(const char* str){
     int j=0;
     for(i=0;i<len;){
         if(i+3<=len-1){
-            char* decode = translate4to3(base64char2num(*(str+i)),base64char2num(*(str+i+1)),base64char2num(*(str+i+2)),base64char2num(*(str+i+3)));
+            char* decode = translate_3to_4_4(base64char2num(*(str + i)),
+                                             base64char2num(*(str + i + 1)),
+                                             base64char2num(*(str + i + 2)),
+                                             base64char2num(*(str + i + 3)));
             if(*(str+i+3)!='='){
                 *(rel+j)=*decode;
                 *(rel+j+1)=*(decode+1);
@@ -173,6 +223,7 @@ base64_decode2(const char* str){
                 *(rel+j+2)='\0';
                 break;
             }
+            printMsg(decode);
             free(decode);
         }
         i+=4;
@@ -180,7 +231,7 @@ base64_decode2(const char* str){
     }
     return rel;
 }
-char* translate3to4(char a,char b,char c){
+char* translate_3to_4_3(char a, char b, char c){
     char* result = (char*)malloc(4*sizeof(char));
     *result = (a>>2)&0b00111111;
     *(result+1) = ((a<<4)&0b00110000)+((b>>4)&0b00001111);
@@ -189,7 +240,7 @@ char* translate3to4(char a,char b,char c){
     return result;
 }
 
-char* translate3to4(char a){
+char* translate_3to_4_1(char a){
     char* result = (char*)malloc(4*sizeof(char));
     *result = (a>>2)&0b00111111;
     *(result+1) = (a<<4)&0b00110000;
@@ -198,7 +249,7 @@ char* translate3to4(char a){
     return result;
 }
 
-char* translate3to4(char a,char b){
+char* translate_3to_4_2(char a, char b){
     char* result = (char*)malloc(4*sizeof(char));
     *result = (a>>2)&0b00111111;
     *(result+1) = ((a<<4)&0b00110000)+((b>>4)&0b00001111);
@@ -225,7 +276,7 @@ char num2base64char(char n){
     return result;
 }
 
-char* translate4to3(char a,char b,char c,char d){
+char* translate_3to_4_4(char a, char b, char c, char d){
     char* result = (char*)malloc(3*sizeof(char));
     *result =((a<<2)&0b11111100)+((b>>4)&0b00001111);
     *(result+1)=((c>>2)&0b00001111)+((b<<4)&0b11110000);

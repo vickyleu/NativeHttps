@@ -273,7 +273,7 @@ extern "C" {
 
 #define SSL3_RT_MAX_MD_SIZE			64
 
-/* Maximum block size used in all ciphersuites. Currently 16 for AES.
+/* Maximum block size used in all ciphersuites. Currently 16 for AesUtils.
  */
 
 #define	SSL_RT_MAX_CIPHER_BLOCK_SIZE		16

@@ -502,7 +502,6 @@ AES128_ECB_decrypt(uint8_t *input, const uint8_t *key, uint8_t *output) {
  */
 JNIEXPORT char *JNICALL
 AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
-
     int inLength = (int) strlen(in);//输入的长度
     int remainder = inLength % 16;
     printMsg2("输入: ", in);
@@ -528,7 +527,6 @@ AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
         int size = 16 * (group + 1);
         paddingInput = (uint8_t *) malloc(size);
         paddingInputLengt = size;
-
         int dif = size - inLength;
         int i;
         for (i = 0; i < size; i++) {
@@ -574,13 +572,15 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 //    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
     printMsg2("输入:", in);
-    char *var = base64_decode(in,(int) strlen(in));
+    char *var =base64_decode2(in);
+//    char *var = base64_decode(in,(int) strlen(in));
 //    size_t size = strlen(var);
 //    char *b64Out= (char *) malloc(size);
 //    memset(b64Out,0,size);
     uint8_t *inputDesBase64 = (uint8_t *) var;
     const size_t inputLength = (strlen(in) / 4) * 3;
     uint8_t *out = (uint8_t *) malloc(inputLength);
+
     memset(out, 0, inputLength);
 
     size_t count = inputLength / 16;
@@ -630,6 +630,7 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
     memset(ret, 0, inputLength);
     sprintf(ret, "%s", out);
     free(inputDesBase64);
+    inputDesBase64=NULL;
     return ret;
 }
 

@@ -4,7 +4,7 @@
 #include "../Utils/CDebuger.h"
 #include "../Utils/StringUtil.h"
 
-bool isDebug = false;
+bool isDebug = 0;
 
 void printMsg(char const *log) {
     if (isDebug) {
@@ -46,17 +46,22 @@ void printMsg2(const char *pstring, string pJstring) {
 bool log_for_debug(JNIEnv *env) {
     jclass my_class = env->FindClass(CPP_PROXY);
     if (my_class == NULL) {
-        printMsg("混淆CppProxy出错");
-        return true;
+        LOGE("混淆CppProxy出错");
+        return false;
     }
     jfieldID fieldID = env->GetStaticFieldID(my_class, "isDebug", "Z");
     jboolean debug = env->GetStaticBooleanField(my_class, fieldID);
     isDebug = debug;
+    LOGE("哎哟");
     return isDebug;
 }
 
 void init(JNIEnv *env) {
     //todo 本地方法读取不到java类,后续解决
+    if (env==NULL)
+        return;
+
+
     bool logeEnable = log_for_debug(env);
     isDebug = logeEnable;
 //    globalVar = logeEnable;

@@ -3,22 +3,55 @@
 //
 #include "pkg/header/native.h"
 #include "pkg/header/AesUtil.h"
+#include "pkg/header/Constant.h"
 
 JNIEXPORT jstring JNICALL
  Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in=  (env)->GetStringUTFChars(str_, JNI_FALSE);
+//    const char *inOrigin=  (env)->GetStringUTFChars(str_, JNI_FALSE);
+//    jstring conv=  cToJstringutf(env,inOrigin);
+//    (env)->ReleaseStringUTFChars(str_, inOrigin);
+//    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
     char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY);
     (env)->ReleaseStringUTFChars(str_, in);
-    return (env)->NewStringUTF(baseResult);
+    in=NULL;
+//    jstring ret=(env)->NewStringUTF(baseResult);
+    jstring ret=  cToJstringutf(env,baseResult);
+//    jstring ret=  cTojstringbk(env,baseResult);
+    free(baseResult);
+    baseResult = NULL;
+    return ret;
 }
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
-    const char *str = (env)->GetStringUTFChars(str_, JNI_FALSE);
-    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(str,AES_KEY);
-    (env)->ReleaseStringUTFChars(str_, str);
+    const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
+//    const char *inOrigin=  (env)->GetStringUTFChars(str_, JNI_FALSE);
+//    jstring conv=  cToJstringutf(env,inOrigin);
+//    (env)->ReleaseStringUTFChars(str_, inOrigin);
+//    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
+//    size_t size= strlen(str);
+//    char *strConvert= (char *) malloc(size);
+//    memset(strConvert,0,size);
+//    one_unicode_2_utf8(str, size, strConvert);
+//    free(&str);
+//    str=NULL;
+//    str=ch2cs(strConvert);
+//    free(strConvert);
+//    strConvert=NULL;
+
+    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(in,AES_KEY);
+    (env)->ReleaseStringUTFChars(str_, in);
+    in=NULL;
 //    return (*env)->NewStringUTF(env, desResult);
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-    return char2Jstring(env,desResult);
+    jstring ret=  cToJstringutf(env,desResult);
+//    jstring ret=  cTojstringbk(env,desResult);
+
+//    jstring ret=char2Jstring(env,desResult);
+//    jstring ret = (env)->NewStringUTF(desResult);
+    free(desResult);
+    desResult=NULL;
+    return ret;
 }
 JNIEXPORT jbyteArray JNICALL
 Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) {

@@ -44,15 +44,6 @@ public class CppProxy {
 
     public static native byte[] HmacSha256(byte[] data);
 
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    public static native String AesEncryptUnwork(String plainText, String key);
-
-    public static native String AesDecryptUnwork(String cipherText, String key);
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-
-
     public static native String AesEncrypt(String plainText);
 
     public static native String AesDecrypt(String cipherText);

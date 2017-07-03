@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
  /*
          * 此处使用AES-128-ECB加密模式，key需要为16位。
          */
-        String cKey = "12347895a2d5q6c5";
+        String cKey = "12347895a";
         // 需要加密的字串
         String cSrc = "超级工厂";
         try {

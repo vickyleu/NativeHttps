@@ -1,6 +1,7 @@
 //
 // Created by Administrator on 2017/5/11.
 //
+#include <openssl/aes.h>
 #include "pkg/header/native.h"
 #include "pkg/header/AesUtil.h"
 #include "pkg/header/Constant.h"
@@ -12,7 +13,7 @@ JNIEXPORT jstring JNICALL
 //    jstring conv=  cToJstringutf(env,inOrigin);
 //    (env)->ReleaseStringUTFChars(str_, inOrigin);
 //    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
-    char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY);
+    char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in=NULL;
 //    jstring ret=(env)->NewStringUTF(baseResult);
@@ -25,21 +26,8 @@ JNIEXPORT jstring JNICALL
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
-//    const char *inOrigin=  (env)->GetStringUTFChars(str_, JNI_FALSE);
-//    jstring conv=  cToJstringutf(env,inOrigin);
-//    (env)->ReleaseStringUTFChars(str_, inOrigin);
-//    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
-//    size_t size= strlen(str);
-//    char *strConvert= (char *) malloc(size);
-//    memset(strConvert,0,size);
-//    one_unicode_2_utf8(str, size, strConvert);
-//    free(&str);
-//    str=NULL;
-//    str=ch2cs(strConvert);
-//    free(strConvert);
-//    strConvert=NULL;
 
-    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(in,AES_KEY);
+    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(in,AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in=NULL;
 //    return (*env)->NewStringUTF(env, desResult);
@@ -53,6 +41,62 @@ Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
     desResult=NULL;
     return ret;
 }
+
+
+//void test(){
+//
+//    AES_KEY aes;
+////加密
+//    unsigned char *userKey= (unsigned char *) "12347895a2d5q6c5";
+//    int result=AES_set_encrypt_key(userKey,128,&aes);//设置加密密钥
+//    if(result<0)//如果设置失败,退出
+//        return 0;
+//    unsigned char *inr= (unsigned char *) "加密超级工厂";
+//    unsigned char *out;
+//    unsigned char *plain;
+//    out=(unsigned char *)malloc(sizeof(unsigned char)*17);
+//    memset((void *)out,0,17);//设置17位,并初始为0,这样当printf到第17位的0时就结束了.
+//    plain=(unsigned char *)malloc(sizeof(unsigned char)*17);
+//    memset((void *)plain,0,17);
+//    printf("in=%s\n",inr);
+//    printMsg2("in=%s\n", (const char *)inr);
+
+//    char *inr2 = base64_encode2((const char *) inr);
+
+//    AES_ecb_encrypt((const unsigned char *) inr, out, &aes, AES_ENCRYPT);
+//    printMsg2("out= %s\n", (const char *)out);
+//    char *out2 = base64_encode2((const char *) out);
+//    printf("out=%s\n",out2);//输出密文
+//    printMsg2("out= %s\n", out2);
+//    jstring out2=  cToJstringutf(env,(char *)out);
+//    char * out3=jstring2char(env,out2);
+//    printMsg(out3);
+
+//    if(AES_set_decrypt_key(userKey,128,&aes)<0)
+//        return 0;
+//    char *base64 = base64_decode2((const char *) out2);
+//    AES_ecb_encrypt((const unsigned char *) base64, plain, &aes, AES_DECRYPT);
+//    printf("plain=%s\n",plain);//输出解密后的明文
+//    printMsg2("plain=%s\n",(char *)plain);
+
+//    char *plain2 = base64_decode2((const char *) plain);
+//    printMsg(plain2);
+//    const char *inOrigin=  (env)->GetStringUTFChars(str_, JNI_FALSE);
+//    jstring conv=  cToJstringutf(env,inOrigin);
+//    (env)->ReleaseStringUTFChars(str_, inOrigin);
+//    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
+//    size_t size= strlen(str);
+//    char *strConvert= (char *) malloc(size);
+//    memset(strConvert,0,size);
+//    one_unicode_2_utf8(str, size, strConvert);
+//    free(&str);
+//    str=NULL;
+//    str=ch2cs(strConvert);
+//    free(strConvert);
+//    strConvert=NULL;
+//}
+
+
 JNIEXPORT jbyteArray JNICALL
 Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) {
     unsigned char key[] = {0x6B, 0x65, 0x79};

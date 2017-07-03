@@ -1,13 +1,13 @@
 package com.vicky.libcurl;
 
 import android.util.Base64;
+import android.util.Log;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesUtils {
-
-    // 加密
+    //    // 加密
     public static String Encrypt(String sSrc, String sKey) throws Exception {
         if (sKey == null) {
             System.out.print("Key为空null");
@@ -18,6 +18,8 @@ public class AesUtils {
             System.out.print("Key长度不是16位");
             return null;
         }
+
+        Log.e("sKey", "" + sKey);
         byte[] raw = sKey.getBytes("utf-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding");//"算法/模式/补码方式"
@@ -25,6 +27,7 @@ public class AesUtils {
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
         return Base64.encodeToString(encrypted, Base64.DEFAULT);//此处使用BASE64做转码功能，同时能起到2次加密的作用。
     }
+
 
     // 解密
     public static String Decrypt(String sSrc, String sKey) throws Exception {

@@ -610,28 +610,11 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
      */
 
     int *result = findPaddingIndex(out, inputLength - 1);
+//    size_t sizeP = sizeof(result);
+//    if (sizeP==2){
+//
+//    }
 
-    int offSetIndex = result[0];
-    int lastChar = result[1];
-    //检查是不是padding的字符,然后去掉
-    const size_t noZeroIndex = inputLength - offSetIndex;
-    if (lastChar >= 0 && offSetIndex >= 0) {
-        int success = JNI_TRUE, i;
-        for (i = 0; i < lastChar; ++i) {
-            size_t index = noZeroIndex - lastChar + i;
-            if (!HEX[lastChar] == out[index]) {
-                success = JNI_FALSE;
-            }
-        }
-        if (JNI_TRUE == success) {
-            out[noZeroIndex - lastChar] = '\n';
-            memset(out + noZeroIndex - lastChar + 1, 0, lastChar - 1);
-        }
-
-    } else {
-        out[noZeroIndex] = '\n';
-
-    }
     printMsg2("解密结果:", ch2str((char *) out));
     char *ret = (char *) malloc(inputLength);
     memset(ret, 0, inputLength);

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView tv = (TextView) findViewById(R.id.sample_text);
 
         byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
-        String result2 = CppProxy.AesEncrypt("加密超级工厂");
+        String result2 = CppProxy.AesEncrypt("超级工厂");
         Log.e("AesEncrypt",result2);
         String result3 = CppProxy.AesDecrypt(result2);
         Log.e("AesDecrypt",result3);
@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
         Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
-        tv.setText(result3);
+//        tv.setText(result3);
 
 
  /*
          * 此处使用AES-128-ECB加密模式，key需要为16位。
          */
-        String cKey = "12347895a";
+        String cKey = "12347895a2d5q6c5";
         // 需要加密的字串
         String cSrc = "超级工厂";
         try {

@@ -9,16 +9,10 @@
 JNIEXPORT jstring JNICALL
  Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in=  (env)->GetStringUTFChars(str_, JNI_FALSE);
-//    const char *inOrigin=  (env)->GetStringUTFChars(str_, JNI_FALSE);
-//    jstring conv=  cToJstringutf(env,inOrigin);
-//    (env)->ReleaseStringUTFChars(str_, inOrigin);
-//    const char *in=  (env)->GetStringUTFChars(conv, JNI_FALSE);
     char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in=NULL;
-//    jstring ret=(env)->NewStringUTF(baseResult);
     jstring ret=  cToJstringutf(env,baseResult);
-//    jstring ret=  cTojstringbk(env,baseResult);
     free(baseResult);
     baseResult = NULL;
     return ret;
@@ -26,17 +20,12 @@ JNIEXPORT jstring JNICALL
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
-
     char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(in,AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in=NULL;
-//    return (*env)->NewStringUTF(env, desResult);
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
     jstring ret=  cToJstringutf(env,desResult);
-//    jstring ret=  cTojstringbk(env,desResult);
-
 //    jstring ret=char2Jstring(env,desResult);
-//    jstring ret = (env)->NewStringUTF(desResult);
     free(desResult);
     desResult=NULL;
     return ret;

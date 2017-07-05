@@ -17,7 +17,7 @@ android {
                 cppFlags "-std=c++11 -frtti -fexceptions -DJSON_IS_AMALGAMATION -fstack-protector-all"
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments "-DCMAKE_VERBOSE_MAKEFILE=TRUE"// , '-DANDROID_STL=gnustl_static'
+                arguments "-DANDROID_STL=stlport_shared -DCMAKE_VERBOSE_MAKEFILE=TRUE  -DSTLPORT_FORCE_REBUILD= TRUE"// , '-DANDROID_STL=gnustl_static'
 //                // Sets optional flags for the C compiler.
 //                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
             }

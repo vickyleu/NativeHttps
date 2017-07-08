@@ -14,10 +14,10 @@ android {
             cmake {
                 abiFilters  'armeabi','armeabi-v7a','mips','x86','x86_64','arm64-v8a'//,'mips64'
                 // Sets a flag to enable format macro constants for the C++ compiler.
-                cppFlags "-std=c++11 -frtti -fexceptions -DJSON_IS_AMALGAMATION -fstack-protector-all"
+                cppFlags '-std=c++11','-frtti', '-fexceptions','-DJSON_IS_AMALGAMATION','-fstack-protector-all'
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments "-DANDROID_STL=stlport_shared -DCMAKE_VERBOSE_MAKEFILE=TRUE  -DSTLPORT_FORCE_REBUILD= TRUE"// , '-DANDROID_STL=gnustl_static'
+                arguments '-DANDROID_STL=stlport_shared', '-DCMAKE_VERBOSE_MAKEFILE=TRUE','-DSTLPORT_FORCE_REBUILD= TRUE'// , '-DANDROID_STL=gnustl_static'
 //                // Sets optional flags for the C compiler.
 //                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
             }

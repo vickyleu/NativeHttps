@@ -5,7 +5,14 @@
 #include "Utils/CDebuger.h"
 #include "Exception/NativeCrashHandler.h"
 
+void check(JNIEnv *pEnv);
+
 #ifdef __cplusplus
+
+void check(JNIEnv *pEnv) {
+
+}
+
 extern "C" {
 #endif
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
@@ -16,7 +23,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
         return result;
     }
 //    nativeCrashHandler_onLoad(vm);
-    init(env);
+    init(env);//todo
+    check(env);
     printMsg("JNI启动");
     // 返回jni的版本
     return JNI_VERSION_1_6;

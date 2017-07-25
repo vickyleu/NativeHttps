@@ -2,10 +2,8 @@
 #include "../Utils/log.h"
 #include "../Utils/CDebuger.h"
 #include "../Utils/StringUtil.h"
-
 #include <unistd.h>
 #include <assert.h>
-#include <malloc.h>
 
 #ifndef NDEBUG
 #define Verify(x, r)  assert((x) && r)
@@ -115,6 +113,9 @@ void _makeNativeCrashReport(const char *reason, struct siginfo *siginfo, void *s
             free_backtrace_symbols(symbols, size);
             release_my_map_info_list(map_info);
         }
+
+
+
 
         env->CallVoidMethod(applicationObject, makeCrashReportMethod, env->NewStringUTF(reason),
                             elements, (jint) gettid());

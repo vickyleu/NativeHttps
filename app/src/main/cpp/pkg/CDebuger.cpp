@@ -58,10 +58,8 @@ bool log_for_debug(JNIEnv *env) {
 
 void init(JNIEnv *env) {
     //todo 本地方法读取不到java类,后续解决
-    if (env==NULL)
+    if (env == NULL)
         return;
-
-
     bool logeEnable = log_for_debug(env);
     isDebug = logeEnable;
 //    globalVar = logeEnable;

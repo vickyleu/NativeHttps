@@ -7,27 +7,28 @@
 #include "pkg/header/Constant.h"
 
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
-    const char *in=  (env)->GetStringUTFChars(str_, JNI_FALSE);
-    char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY_C);
+Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
+    const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
+    char *baseResult =AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
-    in=NULL;
-    jstring ret=  cToJstringutf(env,baseResult);
+    in = NULL;
+    jstring ret = cToJstringutf(env, baseResult);
     free(baseResult);
     baseResult = NULL;
     return ret;
 }
+
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
-    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(in,AES_KEY_C);
+    char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(in, AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
-    in=NULL;
+    in = NULL;
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-    jstring ret=  cToJstringutf(env,desResult);
+    jstring ret = cToJstringutf(env, desResult);
 //    jstring ret=char2Jstring(env,desResult);
     free(desResult);
-    desResult=NULL;
+    desResult = NULL;
     return ret;
 }
 
@@ -111,8 +112,9 @@ Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content) 
     env->SetByteArrayRegion(return_val, 0, result_len, (jbyte *) result);
     return return_val;
 }
+
 JNIEXPORT jstring JNICALL
- toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
+toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
     jboolean isCopy = 0;
     const char *c_name = env->GetStringUTFChars(name, &isCopy);
     printMsgMerge("on calling,id:%d,name:%s", string2char(int2String(id)), c_name);
@@ -127,8 +129,8 @@ JNIEXPORT jstring JNICALL
 }
 
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
-                                       jobjectArray header_) {
+Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
+                               jobjectArray header_) {
     if (url_ == NULL) {
         return env->NewStringUTF("URL请求不正确");
     }
@@ -138,9 +140,10 @@ JNIEXPORT jstring JNICALL
     printMsg2("原生请求>>>>>>", string2char(cs));
     return env->NewStringUTF(string2char(cs));
 }
+
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
-                                        jstring header_) {
+Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
+                                jstring header_) {
     const char *url = env->GetStringUTFChars(url_, 0);
     const char *header = env->GetStringUTFChars(header_, 0);
     //POST请求,举例来说

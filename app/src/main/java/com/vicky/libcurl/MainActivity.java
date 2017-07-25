@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         final TextView tv = (TextView) findViewById(R.id.sample_text);
 
-        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
+//        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
         String result2 = CppProxy.AesEncrypt("超级工厂");
         Log.e("AesEncrypt",result2);
         String result3 = CppProxy.AesDecrypt(result2);
@@ -28,27 +28,27 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
-        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
+//        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
+//        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
 //        tv.setText(result3);
 
 
  /*
-         * 此处使用AES-128-ECB加密模式，key需要为16位。
-         */
-        String cKey = "12347895a2d5q6c5";
-        // 需要加密的字串
-        String cSrc = "超级工厂";
-        try {
-            // 加密
-            String enString = AesUtils.Encrypt(cSrc, cKey);
-            Log.e("加密:",enString+"");
-            // 解密
-            String DeString = AesUtils.Decrypt(enString, cKey);
-            Log.e("解密:",DeString+"");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//         * 此处使用AES-128-ECB加密模式，key需要为16位。
+//         */
+//        String cKey = "12347895a2d5q6c5";
+//        // 需要加密的字串
+//        String cSrc = "超级工厂";
+//        try {
+//            // 加密
+//            String enString = AesUtils.Encrypt(cSrc, cKey);
+//            Log.e("加密:",enString+"");
+//            // 解密
+//            String DeString = AesUtils.Decrypt(enString, cKey);
+//            Log.e("解密:",DeString+"");
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
 

@@ -554,7 +554,9 @@ AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
     char *base64En = base64_encode(out, paddingInputLengt);
     printMsg(base64En);
     free(paddingInput);
+    paddingInput = NULL;
     free(out);
+    out = NULL;
     return base64En;
 }
 

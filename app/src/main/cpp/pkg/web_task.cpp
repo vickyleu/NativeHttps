@@ -46,8 +46,10 @@ WebTask::WebTask() {
 }
 
 WebTask::~WebTask() {
-    if (m_web_buf.buf)
+    if (m_web_buf.buf){
         free(m_web_buf.buf);
+        m_web_buf.buf = NULL;
+    }
 }
 
 

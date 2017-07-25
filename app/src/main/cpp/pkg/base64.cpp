@@ -144,6 +144,7 @@ base64_decode(const char *data, int data_len) {
     char *output= new char[strlen(ret)+1];
     strcpy(output,ret);
     free(ret);
+    ret=NULL;
     return output;
 }
 
@@ -191,6 +192,7 @@ base64_encode2(const char* str){
         j+=4;
         i+=3;
         free(encode);
+        encode=NULL;
     }
     return rel;
 }

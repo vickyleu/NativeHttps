@@ -199,6 +199,9 @@ void nativeCrashHandler_onLoad(JavaVM *jvm) {
 //		free_backtrace_symbols = (t_free_backtrace_symbols) dlsym(libcorkscrew, "free_backtrace_symbols");
 //	}
 
+//    env->DeleteLocalRef(stackTraceElementClass);
+//    env->DeleteLocalRef(applicationClass);
+
     struct sigaction handler;
     memset(&handler, 0, sizeof(handler));
     sigemptyset(&handler.sa_mask);

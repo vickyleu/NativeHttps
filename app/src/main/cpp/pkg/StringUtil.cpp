@@ -36,6 +36,7 @@ jstring char2Jstring(JNIEnv *env, char *src) {
     jbyteArray barr = (env)->NewByteArray(len);
     (env)->SetByteArrayRegion(barr, 0, len, (jbyte *) src);
     jstring ret = (jstring) (env)->NewObject(clsstring, mid, barr, strencode);
+    env->DeleteLocalRef(clsstring);
     return ret;
 }
 

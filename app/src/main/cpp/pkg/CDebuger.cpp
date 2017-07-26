@@ -53,6 +53,7 @@ bool log_for_debug(JNIEnv *env) {
     jboolean debug = env->GetStaticBooleanField(my_class, fieldID);
     isDebug = debug;
     LOGE("哎哟");
+    env->DeleteLocalRef(my_class);
     return isDebug;
 }
 

@@ -53,6 +53,9 @@ JNIEXPORT std::string JNICALL
     jstring url_ = env->NewStringUTF(uc);
     bool valid = env->CallStaticBooleanMethod(jniUtil, checkUrl, url_);
     env->ReleaseStringUTFChars(url_, uc);
+
+    env->DeleteLocalRef(jniUtil);
+
     if (!valid) {
         printMsg("Url正则不匹配");
         return "Url正则不匹配";

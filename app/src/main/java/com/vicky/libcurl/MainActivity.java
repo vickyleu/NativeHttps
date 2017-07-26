@@ -2,7 +2,6 @@ package com.vicky.libcurl;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -17,17 +16,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Example of a call to a native method
-        final TextView tv = (TextView) findViewById(R.id.sample_text);
+        final TextView entv = (TextView) findViewById(R.id.encrypto);
+        final TextView detv = (TextView) findViewById(R.id.decrypto);
+        final TextView appendTv = (TextView) findViewById(R.id.append);
 
-        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
+//        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
         String result2 = CppProxy.AesEncrypt("超级工厂");
-        Log.e("AesEncrypt",result2);
+        Log.e("AesEncrypt", result2);
+        entv.setText(result2);
         String result3 = CppProxy.AesDecrypt(result2);
-        Log.e("AesDecrypt",result3);
-
-        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
-        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
-        tv.setText(b64);
+        Log.e("AesDecrypt", result3);
+//        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
+//        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
+        detv.setText(result3);
 
 
  /*
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-
 
 
 //        for (int i = 0; i < 1; i++) {
@@ -69,22 +69,22 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-
-
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-////                final String s = CppProxy.httpFromJNITest();
-//                Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        tv.setText(b64 + "\n\n" /*+ s*/);
-//                    }
-//                });
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 35; i++) {
+                    final int pointer = i + 1;
+                    final String s = CppProxy.httpFromJNITest();
+                    Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            appendTv.append((pointer) + ". " + s + "\n\n" /*+ s*/);
+                        }
+                    });
+                }
+            }
+        }).start();
 //
 //        new Thread(new Runnable() {
 //            @Override

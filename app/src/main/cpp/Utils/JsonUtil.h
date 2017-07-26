@@ -56,9 +56,16 @@ void buildingJsonObject(JNIEnv *env, jobject json, Json::Value v) {
     jmethodID mid = env->GetMethodID(jclazz, "equals", "(Ljava.lang.Object;)Z");
     if (!env->CallBooleanMethod(jclazz, mid, origin) &&
         !env->CallBooleanMethod(jclazz, mid, originArray)) {
+
+        env->DeleteLocalRef(jclazz);
+        env->DeleteLocalRef(origin);
+        env->DeleteLocalRef(originArray);
         printMsg("Json容器类型不正确");
         return;
     }
+    env->DeleteLocalRef(jclazz);
+    env->DeleteLocalRef(origin);
+    env->DeleteLocalRef(originArray);
 
     Json::Value::Members mem = v.getMemberNames();
     for (auto iter = mem.begin(); iter != mem.end(); iter++) {

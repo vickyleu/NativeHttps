@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashReport.initCrashReport(getApplicationContext(), "2bdb10debd", BuildConfig.DEBUG);
+//        CrashReport.initCrashReport(getApplicationContext(), "2bdb10debd", BuildConfig.DEBUG);
         JniApp.install(this);
     }
 }

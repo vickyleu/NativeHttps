@@ -25,6 +25,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     init(env);
     getAbi(env);
     printMsg("JNI启动");
+//    free(&env);
     // 返回jni的版本
     return JNI_VERSION_1_6;
 }

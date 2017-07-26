@@ -181,14 +181,15 @@ namespace Json {
 // See file LICENSE for detail or copy at http://jsoncpp.sourceforge.net/LICENSE
 
 #if !defined(JSON_IS_AMALGAMATION)
-                                                                                                                        # include <json/reader.h>
+
+# include <json/reader.h>
 # include <json/value.h>
 # include "json_tool.h"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
 #include <cstdio>
 #include <cassert>
-#include <stdexcept>
+#include <malloc.h>
 
 #if _MSC_VER >= 1400 // VC++ 8.0
 #pragma warning( disable : 4996 )   // disable warning about strdup being deprecated.
@@ -1491,7 +1492,7 @@ namespace Json {
  */
     static inline void
     releaseStringValue(char *value) {
-        if (value){
+        if (value) {
             free(value);
             value = NULL;
         }

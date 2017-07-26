@@ -19,18 +19,15 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         final TextView tv = (TextView) findViewById(R.id.sample_text);
 
-//        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
+        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
         String result2 = CppProxy.AesEncrypt("超级工厂");
         Log.e("AesEncrypt",result2);
         String result3 = CppProxy.AesDecrypt(result2);
         Log.e("AesDecrypt",result3);
 
-
-
-
-//        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
-//        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
-//        tv.setText(result3);
+        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
+        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
+        tv.setText(b64);
 
 
  /*

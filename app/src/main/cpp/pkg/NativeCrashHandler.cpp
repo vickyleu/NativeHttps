@@ -4,6 +4,7 @@
 #include "../Utils/StringUtil.h"
 #include <unistd.h>
 #include <assert.h>
+#include <malloc.h>
 
 #ifndef NDEBUG
 #define Verify(x, r)  assert((x) && r)

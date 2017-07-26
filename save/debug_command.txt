@@ -1,0 +1,87 @@
+
+C:\Develop\Android\SDK\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin\arm-linux-androideabi-addr2line  -f -e 
+C:\Develop\GitRepo\Github\NativeHttps\app\build\intermediates\cmake\debug\obj\armeabi\libjsonlib.so 00037ad9
+
+
+
+
+adb logcat |  C:\Develop\Android\SDK\ndk-bundle\prebuilt\windows-x86_64\bin\ndk-stack -sym C:\Develop\GitRepo\Github\NativeHttps\app\build\intermediates\cmake\debug\obj\armeabi
+
+
+
+
+********** Crash dump: **********
+Build fingerprint: 'OPPO/OPPO89T_13003/U707T:4.2.1/JOP40D/1390549766:user/release-keys'
+pid: 13157, tid: 13157, name: m.vicky.libcurl  >>> com.vicky.libcurl <<<
+signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr deadbaad
+Stack frame I/DEBUG   (13182):     #00  pc 00024628  /system/lib/libc.so
+Stack frame I/DEBUG   (13182):     #01  pc 00016c6c  /system/lib/libc.so (dlmalloc+4908)
+Stack frame I/DEBUG   (13182):     #02  pc 0000cb2c  /system/lib/libc.so (malloc+16)
+Stack frame I/DEBUG   (13182):     #03  pc 00037ad9  /mnt/asec/com.vicky.libcurl-1/lib/libjsonlib.so (operator new(unsigned int)+12): Routine std::basic_ios<wchar_t, std::char_traits<wchar_t> >::~basic_ios() at /usr/local/google/buildbot/src/android/ndk-r15-release/out/build/tmp/build-139938/build-gnustl/static-armeabij4.9/build/include/bits/basic_ios.h:276
+Stack frame I/DEBUG   (13182):     #04  pc 00037b23  /mnt/asec/com.vicky.libcurl-1/lib/libjsonlib.so (operator new[](unsigned int)+2): Routine std::ios_base::Init::~Init() at /usr/local/google/buildbot/src/android/ndk-r15-release/toolchain/gcc/gcc-4.9/libstdc++-v3/src/c++98/ios_init.cc:123
+Crash dump is completed
+
+
+C:\Develop\Android\SDK\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin\arm-linux-androideabi-addr2line  -f -e C:\Develop\GitRepo\Github\NativeHttps\app\build\intermediates\cmake\debug\obj\armeabi\libjsonlib.so 00037b23  
+C:\Develop\Android\SDK\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin\arm-linux-androideabi-addr2line  -f -e C:\Develop\GitRepo\Github\NativeHttps\app\build\intermediates\cmake\debug\obj\armeabi\libnative.so 000131b7   
+_ZNSt9basic_iosIcSt11char_traitsIcEED4Ev
+/usr/local/google/buildbot/src/android/ndk-r15-release/out/build/tmp/build-139938/build-gnustl/static-armeabij4.9/build/include/bits/basic_ios.h:276
+
+
+Error:error: remove(../../../../build/intermediates/cmake/debug/obj/armeabi/libnative.so): Permission denied
+
+
+
+
+Stack frame I/DEBUG   (15400):     #03  pc 
+00037ad9  /mnt/asec/com.vicky.libcurl-1/lib/libjsonlib.so 
+(operator new(unsigned int)+12):
+ Routine std::basic_ios<wchar_t, std::char_traits<wchar_t> >::~basic_ios() at
+ /usr/local/google/buildbot/src/android/ndk-r15-release/out/build/tmp/build-139938/build-gnustl/static-armeabij4.9/build/include/bits/basic_ios.h:276
+ 
+ 
+ 
+Stack frame I/DEBUG   (15400):     #04  pc 
+00037b23  /mnt/asec/com.vicky.libcurl-1/lib/libjsonlib.so 
+(operator new[](unsigned int)+2): 
+Routine std::ios_base::Init::~Init() at 
+/usr/local/google/buildbot/src/android/ndk-r15-release/toolchain/gcc/gcc-4.9/libstdc++-v3/src/c++98/ios_init.cc:123
+
+
+
+
+
+
+********** Crash dump: **********
+Build fingerprint: 'Xiaomi/lcsh92_wet_tdd/lcsh92_wet_tdd:4.4.2/KOT49H/V8.2.3.0.KHECNDL:user/release-keys'
+pid: 10731, tid: 10731, name: m.vicky.libcurl  >>> com.vicky.libcurl <<<
+signal 6 (SIGABRT), code -6 (SI_TKILL), fault addr --------
+Stack frame I/DEBUG   (11034):     #00  pc 00026234  /system/lib/libc.so (tgkill+12)
+Stack frame I/DEBUG   (11034):     #01  pc 00017335  /system/lib/libc.so (pthread_kill+48)
+Stack frame I/DEBUG   (11034):     #02  pc 00017549  /system/lib/libc.so (raise+10)
+Stack frame I/DEBUG   (11034):     #03  pc 00016215  /system/lib/libc.so
+Stack frame I/DEBUG   (11034):     #04  pc 00025ae4  /system/lib/libc.so (abort+4)
+Stack frame I/DEBUG   (11034):     #05  pc 00013c54  /system/lib/libc.so (dlmalloc+4744)
+Stack frame I/DEBUG   (11034):     #06  pc 0000e1c8  /system/lib/libc.so (malloc+20)
+Stack frame I/DEBUG   (11034):     #07  pc 00057cb1  /system/lib/libdvm.so (dvmCreateCstrFromString(StringObject const*)+76)
+Stack frame I/DEBUG   (11034):     #08  pc 0004cda1  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #09  pc 0003d0a1  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #10  pc 00052749  /system/lib/libandroid_runtime.so
+Stack frame I/DEBUG   (11034):     #11  pc 00076cab  /system/lib/libandroid_runtime.so
+Stack frame I/DEBUG   (11034):     #12  pc 0001e58c  /system/lib/libdvm.so (dvmPlatformInvoke+112)
+Stack frame I/DEBUG   (11034):     #13  pc 0004fca9  /system/lib/libdvm.so (dvmCallJNIMethod(unsigned int const*, JValue*, Method const*, Thread*)+484)
+Stack frame I/DEBUG   (11034):     #14  pc 00027960  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #15  pc 0002f06c  /system/lib/libdvm.so (dvmMterpStd(Thread*)+76)
+Stack frame I/DEBUG   (11034):     #16  pc 0002c550  /system/lib/libdvm.so (dvmInterpret(Thread*, Method const*, JValue*)+188)
+Stack frame I/DEBUG   (11034):     #17  pc 0006351d  /system/lib/libdvm.so (dvmInvokeMethod(Object*, Method const*, ArrayObject*, ArrayObject*, ClassObject*, bool)+400)
+Stack frame I/DEBUG   (11034):     #18  pc 0006badf  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #19  pc 00027960  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #20  pc 0002f06c  /system/lib/libdvm.so (dvmMterpStd(Thread*)+76)
+Stack frame I/DEBUG   (11034):     #21  pc 0002c550  /system/lib/libdvm.so (dvmInterpret(Thread*, Method const*, JValue*)+188)
+Stack frame I/DEBUG   (11034):     #22  pc 000631d1  /system/lib/libdvm.so (dvmCallMethodV(Thread*, Method const*, Object*, bool, JValue*, std::__va_list)+340)
+Stack frame I/DEBUG   (11034):     #23  pc 0004b511  /system/lib/libdvm.so
+Stack frame I/DEBUG   (11034):     #24  pc 0004fe2f  /system/lib/libandroid_runtime.so
+Stack frame I/DEBUG   (11034):     #25  pc 00050bdb  /system/lib/libandroid_runtime.so (android::AndroidRuntime::start(char const*, char const*, bool)+374)
+Stack frame I/DEBUG   (11034):     #26  pc 00001063  /system/bin/app_process
+Stack frame I/DEBUG   (11034):     #27  pc 0000f33c  /system/lib/libc.so (__libc_init+100)
+Stack frame I/DEBUG   (11034):     #28  pc 00000d80  /system/bin/app_process

@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 3.4.1)
 aux_source_directory(jni/libjsoncpp  DIR_JSON_LIB_SRCS)
 #增加Cpp动态共享库
 add_library (jsonlib SHARED ${DIR_JSON_LIB_SRCS})
-
+set(CMAKE_CXX_FLAGS "-g  ${CMAKE_CXX_FLAGS}")
 ###################################################################################
 ###################################################################################
 ###################################################################################

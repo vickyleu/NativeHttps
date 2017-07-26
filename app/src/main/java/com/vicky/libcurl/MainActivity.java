@@ -20,15 +20,20 @@ public class MainActivity extends AppCompatActivity {
         final TextView detv = (TextView) findViewById(R.id.decrypto);
         final TextView appendTv = (TextView) findViewById(R.id.append);
 
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
 //        byte[] result = CppProxy.HmacSha256("你们好啊".getBytes());
-        String result2 = CppProxy.AesEncrypt("超级工厂");
-        Log.e("AesEncrypt", result2);
-        entv.setText(result2);
-        String result3 = CppProxy.AesDecrypt(result2);
-        Log.e("AesDecrypt", result3);
+                String result2 = CppProxy.AesEncrypt("超级工厂");
+                Log.e("AesEncrypt", result2);
+                entv.setText(result2);
+                String result3 = CppProxy.AesDecrypt(result2);
+                Log.e("AesDecrypt", result3);
 //        final String b64 = Base64.encodeToString(result, Base64.DEFAULT);
 //        Log.e(TAG, "HmacSha256>>>>>>>>>>>>>" + b64);
-        detv.setText(result3);
+                detv.setText(result3);
 
 
  /*
@@ -69,22 +74,22 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 35; i++) {
-                    final int pointer = i + 1;
-                    final String s = CppProxy.httpFromJNITest();
-                    Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            appendTv.append((pointer) + ". " + s + "\n\n" /*+ s*/);
-                        }
-                    });
-                }
-            }
-        }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+              /*  for (int i = 0; i < 3; i++) {
+                    final int pointer = i + 1;*/
+                        final String s = CppProxy.httpFromJNITest();
+                        Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                appendTv.append(/*(pointer) + */". " + s + "\n\n" /*+ s*/);
+                            }
+                        });
+                /*}*/
+                    }
+                }).start();
 //
 //        new Thread(new Runnable() {
 //            @Override
@@ -100,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
 //        mScanner.setConfig(0, Config.X_DENSITY, 3);
 //        mScanner.setConfig(0, Config.Y_DENSITY, 3);
 
+
+            }
+        });
 
     }
 

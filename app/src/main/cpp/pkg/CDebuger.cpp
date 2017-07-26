@@ -45,15 +45,18 @@ void printMsg2(const char *pstring, string pJstring) {
 
 bool log_for_debug(JNIEnv *env) {
     jclass my_class = env->FindClass(CPP_PROXY);
+    env->NewGlobalRef(my_class);
     if (my_class == NULL) {
         LOGE("混淆CppProxy出错");
+        env->FatalError("混淆CppProxy出错,程序异常");
+//        env->DeleteLocalRef(my_class);
         return false;
     }
     jfieldID fieldID = env->GetStaticFieldID(my_class, "isDebug", "Z");
     jboolean debug = env->GetStaticBooleanField(my_class, fieldID);
     isDebug = debug;
     LOGE("哎哟");
-    env->DeleteLocalRef(my_class);
+//    env->DeleteLocalRef(my_class);
     return isDebug;
 }
 

@@ -329,10 +329,12 @@ bool WebTask::checkNetWorkAvailable() {
     curl = curl_easy_init();
     if (curl) {
         //设置一个请求文件地址
-        curl_easy_setopt(curl, CURLOPT_URL, "http://www.xxxx.tv/release/remote.update");
+        curl_easy_setopt(curl, CURLOPT_URL, "http://www.baidu.com");
         //执行请求操作,将返回值交给res
         res = curl_easy_perform(curl);
         //res=0的情况表示接收到信息,反之则没有收到信息
+        /* 释放资源 */
+        curl_easy_cleanup(curl);
         if (res != 0) {
             //没有联网
             return false;
@@ -341,8 +343,6 @@ bool WebTask::checkNetWorkAvailable() {
             return true;
 
         }
-        /* 释放资源 */
-        curl_easy_cleanup(curl);
     }
     return false;
 }

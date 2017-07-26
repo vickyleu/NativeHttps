@@ -1,7 +1,6 @@
 package jni.http;
 
 
-import android.os.Build;
 import android.support.annotation.WorkerThread;
 
 import com.vicky.libcurl.BuildConfig;
@@ -20,7 +19,7 @@ public class CppProxy {
 //        if (Build.VERSION.SDK_INT==Build.VERSION_CODES.JELLY_BEAN_MR1) {
 //            System.loadLibrary("opencv_java");
 //        }
-        System.loadLibrary("stlport_shared");
+//        System.loadLibrary("stlport_shared");
         System.loadLibrary("curl");
         System.loadLibrary("Zbar");
         System.loadLibrary("jsonlib");

@@ -76,14 +76,34 @@ toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                jobjectArray header_) {
+
+
+
+
+
+
+    if (env==NULL){
+        printMsg("env为空");
+    }
     if (url_ == NULL) {
-        return env->NewStringUTF("URL请求不正确");
+        const char *str = "URL请求不正确";
+        jstring rlt =env->NewStringUTF(str);
+        return rlt;
     }
     const char *url = env->GetStringUTFChars(url_, 0);
     const char *params = params_ != NULL ? env->GetStringUTFChars(params_, 0) : "";
     const string &cs = nativeHttpGet(env, url, params);
-    printMsg2("原生请求>>>>>>", string2char(cs));
-    return env->NewStringUTF(string2char(cs));
+    if (params_!=NULL){
+       env->ReleaseStringUTFChars(params_,params);
+    }
+
+
+    char *str = string2char(cs);
+    free((void *) &cs);
+    printMsg2("原生请求>>>>>>",str );
+    char *rlt = string2char(str);
+    free(str);
+    return env->NewStringUTF(rlt);
 }
 
 JNIEXPORT jstring JNICALL
@@ -100,14 +120,26 @@ Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject 
 //    task.AddPostString("email", email);
     env->ReleaseStringUTFChars(url_, url);
     env->ReleaseStringUTFChars(header_, header);
-    return env->NewStringUTF("");
+    jstring rlt = env->NewStringUTF("");
+    return rlt;
 }
 
 
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this */) {
     //GET请求
-    std::string url = "http://www.weather.com.cn/data/sk/101280601.html";
-    return Java_jni_http_CppProxy_httpGET(env, type, env->NewStringUTF(string2char(url)), NULL,
-                                          NULL);
+    const char *url = "http://120.25.195.170:8880/api/statistics/detail?type=1&time=2&no=-2";
+    //todo  const std::string 无法释放内存,会破坏内存结构
+//    char *u1 = string2char(url);
+
+
+
+
+    if (env==NULL){
+        printMsg("env为空");
+    }
+    jstring urls = env->NewStringUTF(url);
+    jstring rlt = Java_jni_http_CppProxy_httpGET(env, type, urls, NULL, NULL);
+//    free(u1);
+    return rlt;
 }

@@ -57,6 +57,7 @@ JNIEXPORT std::string JNICALL
     env->DeleteLocalRef(jniUtil);
 
     if (!valid) {
+
         printMsg("Url正则不匹配");
         return "Url正则不匹配";
     } else {
@@ -65,19 +66,24 @@ JNIEXPORT std::string JNICALL
 
     //GET请求
     WebTask task;
-    if (strcmp(string2char(params), "") != 0) {
-        url = strcat(string2char(url), "?");
-        url = strcat(string2char(url), string2char(params));
+    char *p_ = string2char(params);
+    char *u_ = string2char(url);
+    if (strcmp(p_, "") != 0) {
+        url = strcat(u_, "?");
+        url = strcat(u_, p_);
     }
+    free(p_);
+    p_=NULL;
+    free(u_);
+    u_=NULL;
+
     printMsg1("使用的请求地址是:", url_, env);
     printMsg2("使用的请求方法是:", "GET");
-    printMsg2("请求超时:", int2String(5));
+    printMsg2("请求超时时间:", int2String(5)+"秒");
     printMsg2("开始时间是:", currentTime());
 
     bool isAvailable = task.checkNetWorkAvailable();
-    if (!isAvailable) {
-        return "网络无连接！";
-    }
+    if (!isAvailable)return "网络无连接！";
     printMsg("网络测试成功");
     task.SetUrl(string2char(url));
     task.useSSl(ch2str(string2char(url)).find("https://") != 0);
@@ -88,6 +94,7 @@ JNIEXPORT std::string JNICALL
     if (task.WaitTaskDone() == 0) {
         //请求服务器成功
         std::string jsonResult = task.GetResultString();
+        curl_easy_cleanup(task.m_curl);
         printMsgMerge("返回的json数据是：\n", jsonResult.c_str());
         Json::Reader reader;
         Json::Value root;
@@ -102,10 +109,15 @@ JNIEXPORT std::string JNICALL
 //            std::string result =
 //                    "城市：" + city + "\n温度：" + temp + "\n风向：" + WD + "\n风力：" + WS + "\n时间：" + time;
 ////            return result.c_str();
-            return jsonResult.c_str();
+            const char *cs = jsonResult.c_str();
+            free(&jsonResult);
+            return cs;
         }
+        free(&jsonResult);
         return "Json格式异常！";
     } else {
+        curl_easy_cleanup(task.m_curl);
+
         printMsg("网络连接失败\n");
         return "网络连接失败！";
     }

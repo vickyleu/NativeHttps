@@ -169,7 +169,7 @@ base64_encode2(const char* str){
     int j=0;
     //int n=0;
     for(i=0;i<len;){
-        char* encode;
+        char* encode=NULL;
         if(i+2<=len-1){
             encode = translate_3to_4_3(*(str + i), *(str + i + 1), *(str + i + 2));
             *(rel+j) = num2base64char(*encode);
@@ -188,6 +188,8 @@ base64_encode2(const char* str){
             *(rel+j+1) = num2base64char(*(encode+1));
             *(rel+j+2) = num2base64char(*(encode+2));
             *(rel+j+3) = num2base64char(*(encode+3));
+        }else{
+            encode = 0;//NULL;
         }
         j+=4;
         i+=3;
@@ -261,7 +263,7 @@ char* translate_3to_4_2(char a, char b){
 }
 
 char num2base64char(char n){
-    char result;
+    char result=NULL;
     if(n<26){
         result = 'A'+n;
     }else if(n<52){
@@ -273,6 +275,8 @@ char num2base64char(char n){
     }else if(n==63){
         result = '/';
     }else if(n==64){
+        result = '=';
+    } else{
         result = '=';
     }
     return result;
@@ -287,7 +291,7 @@ char* translate_3to_4_4(char a, char b, char c, char d){
     return result;
 }
 char base64char2num(char b){
-    char result;
+    char result=NULL;
     if(b>='A' && b<='Z'){
         result = b-'A';
     }else if(b>='a' && b<='z'){
@@ -300,6 +304,8 @@ char base64char2num(char b){
         result = 63;
     }else if(b=='='){
         result = 0;//64;
+    } else{
+        result = '=';//NULL;
     }
     return result;
 }

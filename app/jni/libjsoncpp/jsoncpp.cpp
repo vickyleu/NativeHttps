@@ -1029,6 +1029,7 @@ namespace Json {
     public:
         typedef AllocatedType Type;
 
+
         BatchAllocator(unsigned int objectsPerPage = 255)
                 : freeHead_(0), objectsPerPage_(objectsPerPage) {
 //      printf( "Size: %d => %s\n", sizeof(AllocatedType), typeid(AllocatedType).name() );

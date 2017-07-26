@@ -778,7 +778,7 @@ namespace Json {
 
          void setComment( const char *text );
 
-         char *comment_;
+         char *comment_=" ";
       };
 
       //struct MemberNamesTransform

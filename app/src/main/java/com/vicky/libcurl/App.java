@@ -2,6 +2,8 @@ package com.vicky.libcurl;
 
 import android.app.Application;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import jni.http.JniApp;
 
 /**
@@ -16,6 +18,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "2bdb10debd", BuildConfig.DEBUG);
         JniApp.install(this);
     }
 }

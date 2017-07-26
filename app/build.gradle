@@ -1,11 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'bugly'
 
+bugly {
+    appId = '2bdb10debd' // 注册时分配的App ID
+    appKey = '7233db83-2486-49f2-ab49-65987a3899ae' // 注册时分配的App Key
+    debug = true
+}
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.vicky.libcurl"
-        minSdkVersion 9
+        minSdkVersion 10
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -23,16 +29,30 @@ android {
             }
         }
     }
+    signingConfigs {
+        //指定名叫release的一个签名对象 会在下面的脚本中，动态根据配置文件设置属性
+        release {}
+    }
     buildTypes {
         release {
+            jniDebuggable true
+            debuggable true
             minifyEnabled false
+            if (signingConfigs.release != null) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             jniDebuggable true
             debuggable true
+            if (signingConfigs.release != null) {
+                signingConfig signingConfigs.release
+            }
+            debuggable true
         }
     }
+
 
     sourceSets {
         main {
@@ -53,5 +73,55 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+
     testCompile 'junit:junit:4.12'
+}
+
+
+/*读取签名信息*/
+def Properties props = new Properties()
+def propFile = file('./signing.properties')
+if (propFile.canRead()) {
+    props.load(new FileInputStream(propFile))
+    if (props != null
+            && props.containsKey('RELEASE_STORE_DIR_PATH')
+            && props.containsKey('RELEASE_STORE_FILE_PATH')
+            && props.containsKey('RELEASE_STORE_PASSWORD')
+            && props.containsKey('RELEASE_KEY_ALIAS')
+            && props.containsKey('RELEASE_KEY_PASSWORD')) {
+        try {
+            try {
+                file(props['RELEASE_STORE_DIR_PATH']).mkdirs()
+            } catch (Exception ignored) {
+                throw new Exception("签名文件夹创建失败")
+            }
+            if (!file(props['RELEASE_STORE_DIR_PATH'].
+                    toString() + "/" + props['RELEASE_STORE_FILE_PATH']).exists()) {
+                String dir = props['RELEASE_STORE_DIR_PATH'].toString()
+                String signFile = props['RELEASE_STORE_FILE_PATH'].toString()
+                signFile = signFile.replace(dir + "/", "")
+                throw new Exception("app/sign目录下没有" + signFile + "签名文件")
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage().toString())
+        }
+
+        android.signingConfigs.release.storeFile = file(props['RELEASE_STORE_DIR_PATH'].
+                toString() + "/" + props['RELEASE_STORE_FILE_PATH'])
+        android.signingConfigs.release.storePassword = props['RELEASE_STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['RELEASE_KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['RELEASE_KEY_PASSWORD']
+        android.signingConfigs.release.v2SigningEnabled = true
+        println "use signing.properties file"
+    } else {
+        android.buildTypes.release.signingConfig = null
+        println "not use signing.properties file"
+    }
+} else {
+    android.buildTypes.release.signingConfig = null
+    println "not find signing.properties file"
 }

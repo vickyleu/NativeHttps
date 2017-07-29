@@ -504,12 +504,12 @@ JNIEXPORT char *JNICALL
 AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key) {
     int inLength = (int) strlen(in);//输入的长度
     int remainder = inLength % 16;
-    printMsg2("输入: ", in);
+    printMsg2("输入: ", string2char(in));
 //    LOGEX(in,inLength);
 
-    printMsg2("输入,转码:", ch2str(base64_encode2(in)));
+    printMsg2("输入,转码:", string2char(ch2str(base64_encode2(in))));
 //    printMsg2("输入,转码:", ch2str(base64_encode(in, inLength)));
-    printMsg2("key:", ch2str((char *) key));
+    printMsg2("key:", string2char(ch2str((char *) key)));
     uint8_t *paddingInput;
 //    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
     int paddingInputLengt = 0;
@@ -580,7 +580,9 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 // 1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";
 
     // 编码原理:将3个字节转换成4个字节
-    printMsg2("输入:", in);
+    if (in == NULL)
+        return "";
+    printMsg2("输入:", string2char(in));
     char *var = base64_decode2(in);
 //    char *var = base64_decode(in,(int) strlen(in));
 //    size_t size = strlen(var);
@@ -617,7 +619,7 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 //
 //    }
 
-    printMsg2("解密结果:", ch2str((char *) out));
+    printMsg2("解密结果:", string2char(ch2str((char *) out)));
     char *ret = (char *) malloc(inputLength);
     memset(ret, 0, inputLength);
     sprintf(ret, "%s", out);

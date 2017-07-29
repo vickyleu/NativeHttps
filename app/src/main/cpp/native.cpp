@@ -20,7 +20,7 @@ Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
 
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
-    const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
+    const char *in = (env)->GetStringUTFChars(str_, 0);
     char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(in, AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in = NULL;
@@ -92,13 +92,11 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
     if (params_ != NULL) {
         env->ReleaseStringUTFChars(params_, params);
     }
-
-
     char *str = string2char(cs);
-    free((void *) &cs);
+//    free((void *) &cs);
     printMsg2("原生请求>>>>>>", str);
     char *rlt = string2char(str);
-    free(str);
+//    free(str);
     return env->NewStringUTF(rlt);
 }
 

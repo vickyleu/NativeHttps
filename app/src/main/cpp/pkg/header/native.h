@@ -78,7 +78,7 @@ nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
 
     printMsg1("使用的请求地址是:", url_, env);
     printMsg2("使用的请求方法是:", "GET");
-    printMsg2("请求超时时间:", int2String(5) + "秒");
+    printMsg2("请求超时时间:", string2char(int2String(5) + "秒"));
     printMsg2("开始时间是:", currentTime());
 
     bool isAvailable = task.checkNetWorkAvailable();

@@ -34,7 +34,7 @@ void printMsg1(const char *pstring, jstring pJstring, JNIEnv *pEnv) {
     }
 }
 
-void printMsg2(const char *pstring, string pJstring) {
+void printMsg2(const char *pstring, char *pJstring) {
     if (isDebug) {
         char *VAR1 = string2char(pstring);
         char *VAR2 = string2char(pJstring);
@@ -47,17 +47,23 @@ bool log_for_debug(JNIEnv *env) {
     jclass my_class = env->FindClass(CPP_PROXY);
     env->NewGlobalRef(my_class);
     if (my_class == NULL) {
+        isDebug = false;
         LOGE("混淆CppProxy出错");
         env->FatalError("混淆CppProxy出错,程序异常");
-//        env->DeleteLocalRef(my_class);
+        env->DeleteLocalRef(my_class);
         return false;
     }
     jfieldID fieldID = env->GetStaticFieldID(my_class, "isDebug", "Z");
+    if (fieldID == NULL) {
+        isDebug = false;
+        return false;
+    }
+
     jboolean debug = env->GetStaticBooleanField(my_class, fieldID);
     isDebug = debug;
     LOGE("哎哟");
-//    env->DeleteLocalRef(my_class);
-    return (bool)debug;
+    env->DeleteLocalRef(my_class);
+    return (bool) debug;
 }
 
 void init(JNIEnv *env) {

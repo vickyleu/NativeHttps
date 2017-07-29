@@ -276,8 +276,6 @@ char num2base64char(char n){
         result = '/';
     }else if(n==64){
         result = '=';
-    } else{
-        result = '=';
     }
     return result;
 }
@@ -304,8 +302,6 @@ char base64char2num(char b){
         result = 63;
     }else if(b=='='){
         result = 0;//64;
-    } else{
-        result = '=';//NULL;
     }
     return result;
 }

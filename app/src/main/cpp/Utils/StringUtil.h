@@ -27,7 +27,7 @@ jstring cTojstringbk(JNIEnv *env, char *pat);
 
 const char *ss(string pJstring);
 
-char *string2char(string pJstring);
+char *string2char(string str);
 
 const char *ch2cs(char *ch);
 

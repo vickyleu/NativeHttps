@@ -9,11 +9,11 @@
 
 typedef unsigned char BYTE;
 
-class StringFormatException : public exception {
+/*class StringFormatException : public exception {
     virtual const char *what() const throw() {
         return "String Format not a valid arguments";
     }
-} formatException;
+} formatException;*/
 
 static void trim(char *str) {
     char *p = str + strlen(str) - 1;
@@ -67,11 +67,10 @@ const char *ss(string pJstring) {
     return c_s;
 }
 
-char *string2char(string pJstring) {
-    char *c;
-    unsigned long len = pJstring.length();
-    c = new char[len + 1];
-    strcpy(c, pJstring.c_str());
+char *string2char(string str) {
+    size_t len = str.length();
+    char *c= (char *) malloc(len + 1);
+    strcpy(c, str.c_str());
     return c;
 }
 
@@ -118,7 +117,7 @@ int ascii2hex(char *ascii, char *hex) {
 char *jstring2char(JNIEnv *env, jstring jstr) {
     char *rtn = NULL;
     if (jstr == NULL) {
-        throw formatException;
+        return "";
     }
     jclass clsstring = env->FindClass("java/lang/String");
     jstring strencode = env->NewStringUTF("utf-8");
@@ -160,7 +159,7 @@ char *currentTime() {
  * 把java的string转化成c的字符串
  */
 string Jstring2string(JNIEnv *env, jstring jstr) {
-    char *rtn = NULL;
+    char *rtn;
     jclass clsstring = env->FindClass("java/lang/String");  //String
     jstring strencode = env->NewStringUTF("GB2312"); //"gb2312"
     jmethodID mid = env->GetMethodID(clsstring, "getBytes",
@@ -175,7 +174,11 @@ string Jstring2string(JNIEnv *env, jstring jstr) {
         rtn[alen] = 0;
     }
     env->ReleaseByteArrayElements(barr, ba, 0);  //释放内存空间
-    return rtn;
+    std:string var;
+    if (rtn!=NULL){
+        var=ch2str(rtn);
+    }
+    return var;
 }
 
 /**

@@ -12,8 +12,8 @@
 #include "../../Utils/CDebuger.h"
 #include "../../Utils/StringUtil.h"
 #include "../../network/web_task.h"
-#include "../../../../../jni/libjsoncpp/json.h"
 #include "../../Utils/JsonUtil.h"
+#include "../../../../../jni/jsoncpp/json/json.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -19,13 +19,22 @@ android {
         externalNativeBuild {
             cmake {
                 //command  adb shell setprop dalvik.vm.checkjni true
-                abiFilters  'armeabi','armeabi-v7a','mips','x86','x86_64','arm64-v8a'//,'mips64'
+                abiFilters 'armeabi', 'armeabi-v7a', 'mips', 'x86', 'x86_64', 'arm64-v8a'//,'mips64'
                 // Sets a flag to enable format macro constants for the C++ compiler.
-                cppFlags '-std=c++11','-frtti','-fexceptions','-DJSON_IS_AMALGAMATION','-fstack-protector-all'
+                cppFlags '-frtti',
+                        '-Wwritable-strings',
+                        '-Wno-return-type-c-linkage',
+                        '-fexceptions',
+                        '-DJSON_IS_AMALGAMATION',
+                        '-fstack-protector-all'
+
+                /*'-std=c++11',*/
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
                 arguments '-DANDROID_STL = gnustl_static',
                         '-DCMAKE_VERBOSE_MAKEFILE = TRUE',
+                        '-DANDROID_PLATFORM=android-14',
+                        '-DANDROID_TOOLCHAIN=clang',
                         '-DSTLPORT_FORCE_REBUILD = TRUE',
                         '-DAPP_OPTIM = debug'
 //                // Sets optional flags for the C compiler.
@@ -84,7 +93,6 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
-
 
 /*读取签名信息*/
 def Properties props = new Properties()

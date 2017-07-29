@@ -263,7 +263,7 @@ char* translate_3to_4_2(char a, char b){
 }
 
 char num2base64char(char n){
-    char result=NULL;
+    char result;
     if(n<26){
         result = 'A'+n;
     }else if(n<52){
@@ -291,7 +291,7 @@ char* translate_3to_4_4(char a, char b, char c, char d){
     return result;
 }
 char base64char2num(char b){
-    char result=NULL;
+    char result;
     if(b>='A' && b<='Z'){
         result = b-'A';
     }else if(b>='a' && b<='z'){

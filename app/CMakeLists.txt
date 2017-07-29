@@ -12,9 +12,10 @@ cmake_minimum_required(VERSION 3.4.1)
 #设置cmakelist libcurl的目标路径
 #######查找cpp目录下的所有源文件并将名称保存到 DIR_LIB_SRCS 变量
 aux_source_directory(jni/libjsoncpp  DIR_JSON_LIB_SRCS)
+#增加include包含的路径所有头文件
+
 #增加Cpp动态共享库
 add_library (jsonlib SHARED ${DIR_JSON_LIB_SRCS})
-set(CMAKE_CXX_FLAGS "-g  ${CMAKE_CXX_FLAGS}")
 ###################################################################################
 ###################################################################################
 ###################################################################################
@@ -85,8 +86,7 @@ add_library (native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
 include_directories(${libcurl_DIR}/)
 
 ##增加gcc警告和调试标志
-#set(CMAKE_CXX_FLAGS "-fstack-protector-all   ${CMAKE_CXX_FLAGS}")
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 #生成链接动态库
 target_link_libraries(native
 ${log-lib}

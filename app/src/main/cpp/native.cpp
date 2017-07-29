@@ -9,7 +9,7 @@
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
     const char *in = (env)->GetStringUTFChars(str_, JNI_FALSE);
-    char *baseResult =AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY_C);
+    char *baseResult = AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY_C);
     (env)->ReleaseStringUTFChars(str_, in);
     in = NULL;
     jstring ret = cToJstringutf(env, baseResult);
@@ -78,29 +78,25 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
                                jobjectArray header_) {
 
 
-
-
-
-
-    if (env==NULL){
+    if (env == NULL) {
         printMsg("env为空");
     }
     if (url_ == NULL) {
         const char *str = "URL请求不正确";
-        jstring rlt =env->NewStringUTF(str);
+        jstring rlt = env->NewStringUTF(str);
         return rlt;
     }
     const char *url = env->GetStringUTFChars(url_, 0);
     const char *params = params_ != NULL ? env->GetStringUTFChars(params_, 0) : "";
     const string &cs = nativeHttpGet(env, url, params);
-    if (params_!=NULL){
-       env->ReleaseStringUTFChars(params_,params);
+    if (params_ != NULL) {
+        env->ReleaseStringUTFChars(params_, params);
     }
 
 
     char *str = string2char(cs);
     free((void *) &cs);
-    printMsg2("原生请求>>>>>>",str );
+    printMsg2("原生请求>>>>>>", str);
     char *rlt = string2char(str);
     free(str);
     return env->NewStringUTF(rlt);
@@ -135,7 +131,7 @@ Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this
 
 
 
-    if (env==NULL){
+    if (env == NULL) {
         printMsg("env为空");
     }
     jstring urls = env->NewStringUTF(url);

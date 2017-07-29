@@ -57,7 +57,7 @@ bool log_for_debug(JNIEnv *env) {
     isDebug = debug;
     LOGE("哎哟");
 //    env->DeleteLocalRef(my_class);
-    return isDebug;
+    return (bool)debug;
 }
 
 void init(JNIEnv *env) {

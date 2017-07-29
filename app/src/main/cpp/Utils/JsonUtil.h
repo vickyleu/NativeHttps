@@ -5,8 +5,8 @@
 #ifndef LIBCURL_JSONUTIL_H
 #define LIBCURL_JSONUTIL_H
 
-#include "../../../../jni/libjsoncpp/json.h"
 
+#include "../../../../jni/jsoncpp/json/json.h"
 
 void printJson(Json::Value v) {
     Json::Value::Members mem = v.getMemberNames();

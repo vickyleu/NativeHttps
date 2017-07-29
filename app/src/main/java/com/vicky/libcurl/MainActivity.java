@@ -77,17 +77,17 @@ public class MainActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-              /*  for (int i = 0; i < 3; i++) {
-                    final int pointer = i + 1;*/
-                        final String s = CppProxy.httpFromJNITest();
-                        Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                appendTv.append(/*(pointer) + */". " + s + "\n\n" /*+ s*/);
-                            }
-                        });
-                /*}*/
+                        for (int i = 0; i < 3; i++) {
+                            final int pointer = i + 1;
+                            final String s = CppProxy.httpFromJNITest();
+                            Log.e(TAG, "httpFromJNI>>>>>>>>>>>>>" /*+ s*/);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    appendTv.append((pointer) + ". " + s + "\n\n" /*+ s*/);
+                                }
+                            });
+                        }
                     }
                 }).start();
 //

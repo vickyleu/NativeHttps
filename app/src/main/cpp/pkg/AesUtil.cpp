@@ -638,10 +638,16 @@ int *findPaddingIndex(uint8_t *str, size_t length) {
                         k = 16;
                     }
                     result[1] = k;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-stack-address"
                     return result;
+#pragma clang diagnostic pop
                 }
             }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-stack-address"
             return result;
+#pragma clang diagnostic pop
         }
     }
     return 0;

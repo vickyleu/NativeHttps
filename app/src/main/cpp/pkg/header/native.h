@@ -13,36 +13,35 @@
 #include "../../Utils/StringUtil.h"
 #include "../../network/web_task.h"
 #include "../../Utils/JsonUtil.h"
-#include "../../../../../jni/jsoncpp/json/json.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 JNIEXPORT jbyteArray JNICALL
- Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content);
+Java_jni_http_CppProxy_HmacSha256(JNIEnv *env, jobject obj, jbyteArray content);
 
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_);
+Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_);
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_);
+Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_);
 
 
 JNIEXPORT int JNICALL
 aes_encrypt(char *in, char *key, char *out);
 JNIEXPORT int JNICALL
- aes_decrypt(char *in, char *key, char *out);
+aes_decrypt(char *in, char *key, char *out);
 JNIEXPORT jstring JNICALL
- toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name);
+toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name);
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
-                                       jobjectArray header_);
+Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
+                               jobjectArray header_);
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
-                                        jstring header_);
+Java_jni_http_CppProxy_httpPOST(JNIEnv *env, jclass type, jstring url_, jobject params,
+                                jstring header_);
 JNIEXPORT jstring JNICALL
- Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this */);
+Java_jni_http_CppProxy_httpFromJNITest(JNIEnv *env, jclass type, jobject /* this */);
 JNIEXPORT std::string JNICALL
- nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
+nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
     if (url == "") {
         return "URL请求不正确";
     }
@@ -73,13 +72,13 @@ JNIEXPORT std::string JNICALL
         url = strcat(u_, p_);
     }
     free(p_);
-    p_=NULL;
+    p_ = NULL;
     free(u_);
-    u_=NULL;
+    u_ = NULL;
 
     printMsg1("使用的请求地址是:", url_, env);
     printMsg2("使用的请求方法是:", "GET");
-    printMsg2("请求超时时间:", int2String(5)+"秒");
+    printMsg2("请求超时时间:", int2String(5) + "秒");
     printMsg2("开始时间是:", currentTime());
 
     bool isAvailable = task.checkNetWorkAvailable();

@@ -23,25 +23,21 @@ android {
                 // Sets a flag to enable format macro constants for the C++ compiler.
                 cppFlags '-frtti',
                         '-Wwritable-strings',
+                        '-Wno-return-type-c-linkage',
                         '-fexceptions',
                         '-DJSON_IS_AMALGAMATION',
-                        '-fstack-protector-all',
-                        '-D__STDC_FORMAT_MACROS',
-                        '-std=c++11',
-                        '-fsigned-char'
-
+                        '-fstack-protector-all'
 
                 /*'-std=c++11',*/
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments '-DANDROID_PLATFORM=android-13',
-                        '-DANDROID_TOOLCHAIN=clang',
-                        '-DANDROID_STL=c++_static',
+                arguments '-DANDROID_STL = c++_shared',//gnustl_shared',
                         '-DCMAKE_VERBOSE_MAKEFILE = TRUE',
-                        '-DCMAKE_BUILD_TYPE=Debug',
+                        '-DANDROID_PLATFORM=android-14',
                         '-DANDROID_TOOLCHAIN=clang',
-                        '-DSTLPORT_FORCE_REBUILD = TRUE',
-                        '-DAPP_OPTIM = debug'
+                        '-DLIBCXX_FORCE_REBUILD = true',
+                        '-DAPP_OPTIM = debug' //, '-DANDROID_CPP_FEATURES=rtti exceptions',
+                // '-DSTLPORT_FORCE_REBUILD = TRUE',
 //                // Sets optional flags for the C compiler.
 //                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
             }

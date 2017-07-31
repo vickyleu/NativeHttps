@@ -20,6 +20,8 @@ public class CppProxy {
 //            System.loadLibrary("opencv_java");
 //        }
 //        System.loadLibrary("stlport_shared");
+//        System.loadLibrary("gnustl_shared");
+        System.loadLibrary("c++_shared");
         System.loadLibrary("curl");
         System.loadLibrary("Zbar");
         System.loadLibrary("jsonlib");

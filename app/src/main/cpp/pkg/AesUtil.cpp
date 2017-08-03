@@ -581,7 +581,7 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
 
     // 编码原理:将3个字节转换成4个字节
     if (in == NULL)
-        return "";
+        return (char *) malloc(1);
     printMsg2("输入:", string2char(in));
     char *var = base64_decode2(in);
 //    char *var = base64_decode(in,(int) strlen(in));

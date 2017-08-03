@@ -55,6 +55,14 @@ add_library(jcurl  SHARED   IMPORTED )
 set_target_properties(jcurl PROPERTIES IMPORTED_LOCATION
 ${libcurl_DIR}/libs/${ANDROID_ABI}/libcurl.so)
 
+
+
+
+
+
+
+
+
 message(STATUS "jcurl path is: " ${libcurl_DIR}/libs/${ANDROID_ABI}/libcurl.so)
 ###################################################################################
 ###################################################################################
@@ -81,15 +89,36 @@ message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 find_library(log-lib  log )
 add_library (native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
 
-
 #增加include包含的路径所有头文件
 include_directories(${libcurl_DIR}/)
 
+
+
+
+set(libprotobuf_DIR ${CMAKE_SOURCE_DIR}/jni/libprotobuf)
+
+
+
+
+
+message(STATUS "妈卖批: " ${libprotobuf_DIR}/include)
+
+add_library(jprotobuf  STATIC   IMPORTED )
+#增加a文件静态库，${ANDROID_ABI}表示a文件的ABI类型的路径
+set_target_properties(jprotobuf PROPERTIES IMPORTED_LOCATION
+${libprotobuf_DIR}/libs/${ANDROID_ABI}/libprotobuf.a)
+
+
 ##增加gcc警告和调试标志
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+include_directories(${libprotobuf_DIR}/include/)
+#target_include_directories(native PUBLIC
+#${libprotobuf_DIR}/include/
+#)
 #生成链接动态库
 target_link_libraries(native
 ${log-lib}
+jprotobuf
  jssl
  jcrypto
  jcurl

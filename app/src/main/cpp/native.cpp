@@ -77,7 +77,6 @@ JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                jobjectArray header_) {
 
-
     if (env == NULL) {
         printMsg("env为空");
     }

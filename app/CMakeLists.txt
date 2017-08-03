@@ -71,7 +71,12 @@ message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 
 #增加Cpp动态共享库
 find_library(log-lib log)
-add_library(native SHARED ${DIR_LIB_SRCS} ${DIR_LIB_SRCS_PKG})
+add_library(native SHARED
+${DIR_LIB_SRCS}
+${DIR_LIB_SRCS_PKG}
+ src/main/cpp/protobuf/ProtoIO.cpp
+ src/main/cpp/protobuf/sample.pb.cc
+)
 
 #增加include包含的路径所有头文件
 include_directories(${libcurl_DIR}/)

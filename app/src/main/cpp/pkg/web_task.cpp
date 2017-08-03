@@ -329,11 +329,11 @@ bool WebTask::checkNetWorkAvailable() {
     curl = curl_easy_init();
     if (curl) {
         //设置一个请求文件地址
-        curl_easy_setopt(curl, CURLOPT_URL, "https://www.baidu.com");
-        /* size of the POST data */
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, 12L);
-        /* pass in a pointer to the data - libcurl will not copy */
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "");
+        curl_easy_setopt(curl, CURLOPT_URL, "http://www.baidu.com");
+//        /* size of the POST data */
+//        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, 12L);
+//        /* pass in a pointer to the data - libcurl will not copy */
+//        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "");
         //执行请求操作,将返回值交给res
         res = curl_easy_perform(curl);
         //res=0的情况表示接收到信息,反之则没有收到信息
@@ -349,6 +349,7 @@ bool WebTask::checkNetWorkAvailable() {
         }
     }
     return false;
+//    return true;
 }
 
 

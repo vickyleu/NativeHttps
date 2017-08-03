@@ -5,6 +5,7 @@
 #include "pkg/header/native.h"
 #include "pkg/header/AesUtil.h"
 #include "pkg/header/Constant.h"
+#include "protobuf/ProtoIO.h"
 
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_AesEncrypt(JNIEnv *env, jobject instance, jstring str_) {
@@ -76,7 +77,8 @@ toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                jobjectArray header_) {
-
+    tutorial::AddressBook address_book;
+    read(address_book);
     if (env == NULL) {
         printMsg("env为空");
     }

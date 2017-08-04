@@ -26,14 +26,26 @@ android {
                         '-Wno-return-type-c-linkage',
                         '-fexceptions',
                         '-DJSON_IS_AMALGAMATION',
-                        '-fstack-protector-all'
+                        '-fstack-protector-all',
+                        '-O3',
+                        '-fPIC'
 
+                cFlags '-Wwritable-strings',
+                        '-Wno-return-type-c-linkage',
+                        '-DJSON_IS_AMALGAMATION',
+                        '-fstack-protector-all',
+                        '-O3',
+                        '-fPIC'
 
-
+//                def PATH_SO="C:/Develop/Android/SDK/ndk-bundle/platforms/android-9/${ANDROID_ABI}/usr/lib"
+//                def z="${PATH_SO}/libz.so"
+//                def m="${PATH_SO}/libm.so"
+//                def c="${PATH_SO}/libm.so"
+//                def android="${PATH_SO}/libandroid.so"
                 /*'-std=c++11',*/
 //                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments '-DANDROID_STL = c++_shared',//gnustl_shared',
+                arguments '-DANDROID_STL = gnustl_shared',//gnustl_shared',
                         '-DCMAKE_VERBOSE_MAKEFILE = TRUE',
                         '-DANDROID_PLATFORM=android-14',
                         '-DANDROID_TOOLCHAIN=clang',

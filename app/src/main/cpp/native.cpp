@@ -29,7 +29,7 @@ Java_jni_http_CppProxy_AesDecrypt(JNIEnv *env, jobject instance, jstring str_) {
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
     jstring ret = cToJstringutf(env, desResult);
 //    jstring ret=char2Jstring(env,desResult);
-    free(desResult);
+//    free(desResult);
     desResult = NULL;
     return ret;
 }
@@ -80,9 +80,8 @@ Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring p
                                jobjectArray header_) {
 
 
-
     Proto::User user;
-    char  *argv= (char *) malloc(4);
+    char *argv = (char *) malloc(4);
     user.set_name("freebird");
     user.set_email("shu_chen@esri.com");
     fstream output(argv, ios::out | ios::trunc | ios::binary);

@@ -1,4 +1,5 @@
 //protoc -I=./ --cpp_out=./ --java_out=./ ./sample.proto
+//protoc -I=./ --cpp_out=./  ./sample.proto
 package Proto;
 option optimize_for = LITE_RUNTIME;
 option java_package = "jni.http.Proto";

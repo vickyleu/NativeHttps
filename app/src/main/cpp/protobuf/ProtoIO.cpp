@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include "sample.pb.h"
 #include "ProtoIO.h"
 
 using namespace std;

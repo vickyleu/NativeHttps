@@ -74,8 +74,8 @@ struct StaticDescriptorInitializer {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-//const int User::kNameFieldNumber=1;
-//const int User::kEmailFieldNumber=2;
+const int User::kNameFieldNumber;
+const int User::kEmailFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 User::User()

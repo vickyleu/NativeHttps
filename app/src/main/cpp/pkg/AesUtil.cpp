@@ -623,7 +623,7 @@ AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t *key) {
     char *ret = (char *) malloc(inputLength);
     memset(ret, 0, inputLength);
     sprintf(ret, "%s", out);
-    free(inputDesBase64);
+//    free(inputDesBase64);
     inputDesBase64 = NULL;
     return ret;
 }

@@ -3,6 +3,11 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+
+
+
+set(CMAKE_BUILD_TYPE Debug)
+
 ###################################################################################
 ###################################################################################
 ###################################LibJsonCpp########################################
@@ -109,6 +114,7 @@ target_link_libraries(native
         jsonlib
         jzbar
         )
+add_definitions(-Wall)
 
 #自定义命令 因为AndroidStudio漏洞的原因,将预编译的动态库复制到预编译目录中,等待打包到apk中
 add_custom_command(TARGET native POST_BUILD

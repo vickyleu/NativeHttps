@@ -2,6 +2,7 @@
 // Created by Administrator on 2017/5/11.
 //
 #include <openssl/aes.h>
+#include <fstream>
 #include "pkg/header/native.h"
 #include "pkg/header/AesUtil.h"
 #include "pkg/header/Constant.h"
@@ -77,8 +78,17 @@ toBuildJson(JNIEnv *env, jobject thiz, jint id, jstring name) {
 JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                jobjectArray header_) {
-    tutorial::AddressBook address_book;
-    read(address_book);
+
+
+
+    Proto::User user;
+    char  *argv= (char *) malloc(4);
+    user.set_name("freebird");
+    user.set_email("shu_chen@esri.com");
+    fstream output(argv, ios::out | ios::trunc | ios::binary);
+    read(user);
+
+
     if (env == NULL) {
         printMsg("env为空");
     }

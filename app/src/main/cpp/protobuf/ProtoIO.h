@@ -10,9 +10,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-int read(tutorial::AddressBook address_book);
-
-int white(tutorial::AddressBook address_book);
+using namespace Proto;
+using namespace google::protobuf::io;
+using namespace google::protobuf;
+int read(User user);
+int white(User user);
 #ifdef __cplusplus
 }
 #endif

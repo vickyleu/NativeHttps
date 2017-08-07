@@ -1,6 +1,6 @@
-#include <openssl/aes.h>
 #include <cstring>
 #include "header/CryptoUtils.h"
+#include "../../../../jni/libopenssl/crypto/aes/aes.h"
 
 //
 // Created by vicky on 2017.06.30.

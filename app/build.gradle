@@ -25,11 +25,12 @@ android {
                         '-Wwritable-strings',
                         '-Wno-return-type-c-linkage',
                         '-fexceptions',
-                        '-DJSON_IS_AMALGAMATION',
                         '-fstack-protector-all',
+                        '-std=c++1y' ,
+                        '-pedantic',
                         '-O3',
                         '-fPIC'
-
+//                '-Wunused-command-line-argument',
                 cFlags '-Wwritable-strings',
                         '-Wno-return-type-c-linkage',
                         '-DJSON_IS_AMALGAMATION',

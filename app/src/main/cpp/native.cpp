@@ -1,7 +1,6 @@
 //
 // Created by Administrator on 2017/5/11.
 //
-#include <openssl/aes.h>
 #include <fstream>
 #include "pkg/header/native.h"
 #include "pkg/header/AesUtil.h"

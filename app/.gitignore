@@ -3,3 +3,5 @@
 /.externalNativeBuild/
 /app.iml
 /bugly/
+/cmake-build-debug/
+/.idea/

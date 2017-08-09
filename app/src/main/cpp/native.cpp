@@ -78,7 +78,6 @@ JNIEXPORT jstring JNICALL
 Java_jni_http_CppProxy_httpGET(JNIEnv *env, jclass type, jstring url_, jstring params_,
                                jobjectArray header_) {
 
-
     Proto::User user;
     char *argv = (char *) malloc(4);
     user.set_name("freebird");

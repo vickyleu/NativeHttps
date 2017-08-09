@@ -22,7 +22,7 @@ public class CppProxy {
 //        System.loadLibrary("stlport_shared");
 //        System.loadLibrary("gnustl_shared");
         System.loadLibrary("gnustl_shared");
-        System.loadLibrary("curl");
+//        System.loadLibrary("curl");
         System.loadLibrary("Zbar");
         System.loadLibrary("jsonlib");
         System.loadLibrary("native");

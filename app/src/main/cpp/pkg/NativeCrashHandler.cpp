@@ -84,20 +84,29 @@ void _makeNativeCrashReport(const char *reason, struct siginfo *siginfo, void *s
             backtrace_symbol_t symbols[256] = {0,};
             const ssize_t size = unwind_backtrace_signal_arch(siginfo, sigcontext, map_info, frames,
                                                               1, 255);
-            get_backtrace_symbols(frames, size, symbols);
+            get_backtrace_symbols(frames, (size_t) size, symbols);
 
-            elements = env->NewObjectArray(size, stackTraceElementClass, NULL);
+            elements = env->NewObjectArray((jsize) size, stackTraceElementClass, NULL);
             Verify(elements, "Could not create StackElement java array");
             int pos = 0;
             jstring jni = env->NewStringUTF("<JNI>");
             for (int i = 0; i < size; ++i) {
-                const char *method = symbols[i].demangled_name;
+                char* demangled;
+                char* symbol;
+                char* map;
+                if (symbols!=NULL){
+                    demangled= symbols[i].demangled_name;
+                    symbol= symbols[i].symbol_name;
+                    map= symbols[i].map_name;
+                }
+
+                const char *method = demangled;
                 if (!method)
-                    method = symbols[i].symbol_name;
+                    method = symbol;
                 if (!method)
                     method = "?";
                 //__android_log_print(ANDROID_LOG_ERROR, "DUMP", "%s", method);
-                const char *file = symbols[i].map_name;
+                const char *file = map;
                 if (!file)
                     file = "-";
                 jobject element = env->NewObject(stackTraceElementClass, stackTraceElementMethod,
@@ -110,14 +119,9 @@ void _makeNativeCrashReport(const char *reason, struct siginfo *siginfo, void *s
                 env->SetObjectArrayElement(elements, pos++, element);
                 Verify(env->ExceptionCheck() == JNI_FALSE, "Java threw an exception");
             }
-
             free_backtrace_symbols(symbols, size);
             release_my_map_info_list(map_info);
         }
-
-
-
-
         env->CallVoidMethod(applicationObject, makeCrashReportMethod, env->NewStringUTF(reason),
                             elements, (jint) gettid());
         Verify(env->ExceptionCheck() == JNI_FALSE, "Java threw an exception");

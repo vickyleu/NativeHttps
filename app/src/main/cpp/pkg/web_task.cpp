@@ -46,7 +46,7 @@ WebTask::WebTask() {
 }
 
 WebTask::~WebTask() {
-    if (m_web_buf.buf){
+    if (m_web_buf.buf) {
         free(m_web_buf.buf);
         m_web_buf.buf = NULL;
     }
@@ -267,7 +267,7 @@ void WebTask::useSSl(bool used) {
 //        curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(m_curl, CURLOPT_SSLVERSION, 3); //设定SSL版本
         curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, false);
-    } else{
+    } else {
         curl_easy_setopt(m_curl, CURLOPT_USE_SSL, used);
     }
 }

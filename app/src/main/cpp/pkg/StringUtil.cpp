@@ -117,7 +117,7 @@ int ascii2hex(char *ascii, char *hex) {
 char *jstring2char(JNIEnv *env, jstring jstr) {
     char *rtn = NULL;
     if (jstr == NULL) {
-        return "";
+        return string2char("");
     }
     jclass clsstring = env->FindClass("java/lang/String");
     jstring strencode = env->NewStringUTF("utf-8");
@@ -159,7 +159,7 @@ char *currentTime() {
  * 把java的string转化成c的字符串
  */
 string Jstring2string(JNIEnv *env, jstring jstr) {
-    char *rtn;
+    char *rtn = nullptr;
     jclass clsstring = env->FindClass("java/lang/String");  //String
     jstring strencode = env->NewStringUTF("GB2312"); //"gb2312"
     jmethodID mid = env->GetMethodID(clsstring, "getBytes",
@@ -174,7 +174,7 @@ string Jstring2string(JNIEnv *env, jstring jstr) {
         rtn[alen] = 0;
     }
     env->ReleaseByteArrayElements(barr, ba, 0);  //释放内存空间
-    std:string var;
+    string var;
     if (rtn!=NULL){
         var=ch2str(rtn);
     }

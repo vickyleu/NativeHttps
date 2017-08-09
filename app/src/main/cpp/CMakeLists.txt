@@ -14,6 +14,7 @@ message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 
 #增加Cpp动态共享库
 find_library(log-lib log)
+find_library(z-lib z)
 add_library(native SHARED
         ${DIR_LIB_SRCS}
         ${DIR_LIB_SRCS_PKG}
@@ -22,15 +23,20 @@ add_library(native SHARED
 
 target_include_directories(native PUBLIC ../../../jni/libprotobuf)
 target_include_directories(native PUBLIC ../../../jni/libopenssl/include)
+target_include_directories(native PUBLIC ../../../jni/libopenssl/crypto)
 target_include_directories(native PUBLIC ../../../jni/libjsoncpp)
+include_directories(${HHEADERS})
+#target_include_directories(native PUBLIC ${HHEADERS})
 target_include_directories(native PUBLIC ../../../jni/libcurl/include)
 
 #生成链接动态库
 target_link_libraries(native
         ${log-lib}
-        ssl
-        crypto
-        #curl
+        ${z-lib}
+        #ssl
+        #crypto
+        z
+        curl
         protobuf
         jsonlib
         zbar
@@ -39,10 +45,10 @@ target_link_libraries(native
 add_definitions(-Wall)
 
 #自定义命令 因为AndroidStudio漏洞的原因,将预编译的动态库复制到预编译目录中,等待打包到apk中
-add_custom_command(TARGET native POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${libcurl_DIR}/libs/${ANDROID_ABI}" $<TARGET_FILE_DIR:native>)
-add_custom_command(TARGET native POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${libcurl_DIR}/../libzbar/libs/${ANDROID_ABI}" $<TARGET_FILE_DIR:native>)
+#add_custom_command(TARGET native POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory "${libcurl_DIR}/libs/${ANDROID_ABI}" $<TARGET_FILE_DIR:native>)
+#add_custom_command(TARGET native POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory "${libcurl_DIR}/../libzbar/libs/${ANDROID_ABI}" $<TARGET_FILE_DIR:native>)
 #add_custom_command(TARGET native POST_BUILD
 #       COMMAND ${CMAKE_COMMAND} -E copy_directory "${libprotobuf_DIR}/libs/${ANDROID_ABI}" $<TARGET_FILE_DIR:native>)
 

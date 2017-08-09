@@ -20,35 +20,33 @@
 #
 ###########################################################################
 # cURL/libcurl CMake script
-# by Tetetest and Sukender (Benoit Neil)
+# by VickyLeu & origin
 
 cmake_minimum_required(VERSION 3.4.1)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11
--Wpointer-arith
--Wwrite-strings
--Wunused
--Winline
--Wnested-externs
--Wmissing-declarations
--Wmissing-prototypes
--Wno-long-long
--Wfloat-equal
--Wno-multichar
--Wsign-compare
--Wno-format-nonliteral
--Wendif-labels
--Wstrict-prototypes
--Wdeclaration-after-statement
--Wno-system-headers
--DHAVE_CONFIG_H
-")#-m32
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpointer-arith -Wwrite-strings \
+                                        -Wunused -Winline -Wnested-externs \
+                                        -Wmissing-declarations -Wmissing-prototypes -Wno-long-long -Wfloat-equal -Wno-multichar \
+                                        -Wsign-compare -Wno-format-nonliteral -Wendif-labels -Wstrict-prototypes -Wdeclaration-after-statement \
+                                        -Wno-system-headers -DHAVE_CONFIG_H=1  ")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wpointer-arith -Wwrite-strings \
+                                    -Wunused -Winline -Wnested-externs \
+                                    -Wmissing-declarations -Wmissing-prototypes -Wno-long-long -Wfloat-equal -Wno-multichar \
+                                    -Wsign-compare -Wno-format-nonliteral -Wendif-labels -Wstrict-prototypes -Wdeclaration-after-statement \
+                                    -Wno-system-headers -DHAVE_CONFIG_H=1 ")
+
+
+#-m32 -std=c++11 -DANDROID_STL=gnustl_static
 
 if ($(ANDROID_ABI) STREQUAL "mips64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3  -Os")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Os")
 endif ()
+
+
 
 set(LIB_VTLS_CFILES
         lib/vtls/openssl.c
@@ -102,7 +100,6 @@ set(LIB_CFILES
         lib/netrc.c
         lib/getinfo.c
         lib/transfer.c
-        lib/strequal.c
         lib/easy.c
         lib/security.c
         lib/curl_fnmatch.c
@@ -139,7 +136,6 @@ set(LIB_CFILES
         lib/strdup.c
         lib/socks.c
         lib/ssh.c
-        lib/rawstr.c
         lib/curl_addrinfo.c
         lib/socks_gssapi.c
         lib/socks_sspi.c
@@ -159,17 +155,13 @@ set(LIB_CFILES
         lib/openldap.c
         lib/curl_gethostname.c
         lib/gopher.c
-        lib/idn_win32.c
-        lib/http_negotiate_sspi.c
         lib/http_proxy.c
         lib/non-ascii.c
         lib/asyn-ares.c
         lib/asyn-thread.c
         lib/curl_gssapi.c
-        lib/curl_ntlm.c
         lib/curl_ntlm_wb.c
         lib/curl_ntlm_core.c
-        lib/curl_ntlm_msgs.c
         lib/curl_sasl.c
         lib/curl_multibyte.c
         lib/hostcheck.c
@@ -178,9 +170,7 @@ set(LIB_CFILES
         lib/dotdot.c
         lib/x509asn1.c
         lib/http2.c
-        lib/curl_sasl_sspi.c
         lib/smb.c
-        lib/curl_sasl_gssapi.c
         lib/curl_endian.c
         lib/curl_des.c)
 
@@ -188,7 +178,6 @@ set(LIB_HFILES
         lib/arpa_telnet.h
         lib/netrc.h
         lib/file.h
-        lib/curl_config.h
         lib/timeval.h
         lib/hostip.h
         lib/progress.h
@@ -206,7 +195,6 @@ set(LIB_HFILES
         lib/escape.h
         lib/telnet.h
         lib/getinfo.h
-        lib/strequal.h
         lib/curl_sec.h
         lib/memdebug.h
         lib/http_chunks.h
@@ -244,7 +232,6 @@ set(LIB_HFILES
         lib/socks.h
         lib/ssh.h
         lib/curl_base64.h
-        lib/rawstr.h
         lib/curl_addrinfo.h
         lib/curl_sspi.h
         lib/slist.h
@@ -264,18 +251,15 @@ set(LIB_HFILES
         lib/http_proxy.h
         lib/non-ascii.h
         lib/asyn.h
-        lib/curl_ntlm.h
         lib/curl_gssapi.h
         lib/curl_ntlm_wb.h
         lib/curl_ntlm_core.h
-        lib/curl_ntlm_msgs.h
         lib/curl_sasl.h
         lib/curl_multibyte.h
         lib/hostcheck.h
         lib/conncache.h
         lib/curl_setup_once.h
         lib/multihandle.h
-        lib/setup-vms.h
         lib/pipeline.h
         lib/dotdot.h
         lib/x509asn1.h
@@ -290,29 +274,21 @@ set(LIB_RCFILES lib/libcurl.rc)
 set(CSOURCES ${LIB_CFILES} ${LIB_VTLS_CFILES})
 set(HHEADERS ${LIB_HFILES} ${LIB_VTLS_HFILES})
 
-#configure_file(lib/curl_config.h.cmake lib/curl_config.h)
-#configure_file(lib/curlbuild.h.cmake lib/curlbuild.h)
-
-
-find_library(libz C:/Develop/Android/SDK/ndk-bundle/platforms/android-24/${ANDROID_ABI}/usr/lib/libz.so)
-
-add_library(curl SHARED
-                  ${CSOURCES})
+add_library(curl STATIC
+        ${CSOURCES}
+        ${HHEADERS})
 
 target_include_directories(curl PUBLIC
         ./include
-       ${HHEADERS}
         ../libopenssl/include
         ../libopenssl/crypto)
 
-#增加Cpp动态共享库
-find_library(log-lib log)
-#生成链接动态库
+
+find_library(z-lib z)
 target_link_libraries(curl
-        ${log-lib}
-        libz
         ssl
         crypto
+        ${z-lib}
         )
 
 

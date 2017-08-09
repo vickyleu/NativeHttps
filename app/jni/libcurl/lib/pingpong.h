@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -22,7 +22,6 @@
  *
  ***************************************************************************/
 
-#include <stdbool.h>
 #include "curl_setup.h"
 
 #if !defined(CURL_DISABLE_IMAP) || !defined(CURL_DISABLE_FTP) || \
@@ -34,10 +33,10 @@
 struct connectdata;
 
 typedef enum {
-    FTPTRANSFER_BODY, /* yes do transfer a body */
-    FTPTRANSFER_INFO, /* do still go through to get info/headers */
-    FTPTRANSFER_NONE, /* don't get anything and don't get info */
-    FTPTRANSFER_LAST  /* end of list marker, never used */
+  FTPTRANSFER_BODY, /* yes do transfer a body */
+  FTPTRANSFER_INFO, /* do still go through to get info/headers */
+  FTPTRANSFER_NONE, /* don't get anything and don't get info */
+  FTPTRANSFER_LAST  /* end of list marker, never used */
 } curl_pp_transfer;
 
 /*
@@ -47,33 +46,33 @@ typedef enum {
  * It holds response cache and non-blocking sending data.
  */
 struct pingpong {
-    char *cache;     /* data cache between getresponse()-calls */
-    size_t cache_size;  /* size of cache in bytes */
-    size_t nread_resp;  /* number of bytes currently read of a server response */
-    char *linestart_resp; /* line start pointer for the server response
+  char *cache;     /* data cache between getresponse()-calls */
+  size_t cache_size;  /* size of cache in bytes */
+  size_t nread_resp;  /* number of bytes currently read of a server response */
+  char *linestart_resp; /* line start pointer for the server response
                            reader function */
-    bool pending_resp;  /* set TRUE when a server response is pending or in
+  bool pending_resp;  /* set TRUE when a server response is pending or in
                          progress, and is cleared once the last response is
                          read */
-    char *sendthis; /* allocated pointer to a buffer that is to be sent to the
+  char *sendthis; /* allocated pointer to a buffer that is to be sent to the
                      server */
-    size_t sendleft; /* number of bytes left to send from the sendthis buffer */
-    size_t sendsize; /* total size of the sendthis buffer */
-    struct timeval response; /* set to Curl_tvnow() when a command has been sent
+  size_t sendleft; /* number of bytes left to send from the sendthis buffer */
+  size_t sendsize; /* total size of the sendthis buffer */
+  struct timeval response; /* set to Curl_tvnow() when a command has been sent
                               off, used to time-out response reading */
-    long response_time; /* When no timeout is given, this is the amount of
+  long response_time; /* When no timeout is given, this is the amount of
                          milliseconds we await for a server response. */
 
-    struct connectdata *conn; /* points to the connectdata struct that this
+  struct connectdata *conn; /* points to the connectdata struct that this
                                belongs to */
 
-    /* Function pointers the protocols MUST implement and provide for the
-       pingpong layer to function */
+  /* Function pointers the protocols MUST implement and provide for the
+     pingpong layer to function */
 
-    CURLcode (*statemach_act)(struct connectdata *conn);
+  CURLcode (*statemach_act)(struct connectdata *conn);
 
-    bool (*endofresp)(struct connectdata *conn, char *ptr, size_t len,
-                      int *code);
+  bool (*endofresp)(struct connectdata *conn, char *ptr, size_t len,
+                    int *code);
 };
 
 /*
@@ -89,14 +88,14 @@ void Curl_pp_init(struct pingpong *pp);
 
 /* Returns timeout in ms. 0 or negative number means the timeout has already
    triggered */
-long Curl_pp_state_timeout(struct pingpong *pp);
+time_t Curl_pp_state_timeout(struct pingpong *pp);
 
 
 /***********************************************************************
  *
  * Curl_pp_sendf()
  *
- * Send the formated string as a command to a pingpong server. Note that
+ * Send the formatted string as a command to a pingpong server. Note that
  * the string should not have any CRLF appended, as this function will
  * append the necessary things itself.
  *
@@ -109,7 +108,7 @@ CURLcode Curl_pp_sendf(struct pingpong *pp,
  *
  * Curl_pp_vsendf()
  *
- * Send the formated string as a command to a pingpong server. Note that
+ * Send the formatted string as a command to a pingpong server. Note that
  * the string should not have any CRLF appended, as this function will
  * append the necessary things itself.
  *

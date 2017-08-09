@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2015, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -21,6 +21,8 @@
  ***************************************************************************/
 
 #include "curl_setup.h"
+
+#include <curl/curl.h>
 
 #include "curl_fnmatch.h"
 #include "curl_memory.h"
@@ -143,8 +145,7 @@ static int setcharset(unsigned char **p, unsigned char *charset)
       else if(c == ']') {
         if(something_found)
           return SETCHARSET_OK;
-        else
-          something_found = TRUE;
+        something_found = TRUE;
         state = CURLFNM_SCHS_RIGHTBR;
         charset[c] = 1;
         (*p)++;
@@ -242,7 +243,7 @@ static int setcharset(unsigned char **p, unsigned char *charset)
       if(c == ']') {
         return SETCHARSET_OK;
       }
-      else if(c == '\\') {
+      if(c == '\\') {
         c = *(++(*p));
         if(ISPRINT(c)) {
           charset[c] = 1;
@@ -343,8 +344,7 @@ static int loop(const unsigned char *pattern, const unsigned char *string)
       else if(*p == '\0') {
         if(*s == '\0')
           return CURL_FNMATCH_MATCH;
-        else
-          return CURL_FNMATCH_NOMATCH;
+        return CURL_FNMATCH_NOMATCH;
       }
       else if(*p == '\\') {
         state = CURLFNM_LOOP_BACKSLASH;

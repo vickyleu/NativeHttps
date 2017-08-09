@@ -47,14 +47,14 @@ std::string nativeHttpGet(JNIEnv *env, std::string url, std::string params) {
     printMsg("开始打印");
     jclass jniUtil = env->FindClass(JNI_UTIL);
 
-    if (jniUtil==NULL){
-        std::string var="";
-        return var+JNI_UTIL;
+    if (jniUtil == NULL) {
+        std::string var = "";
+        return var + JNI_UTIL;
     }
     jmethodID checkUrl = env->GetStaticMethodID(jniUtil, "checkUrl", "(Ljava/lang/String;)Z");
     char *uc = string2char(url);
     jstring url_ = env->NewStringUTF(uc);
-    if (url_==NULL)
+    if (url_ == NULL)
         return "URL请求不正确";;
     bool valid = env->CallStaticBooleanMethod(jniUtil, checkUrl, url_);
     env->ReleaseStringUTFChars(url_, uc);

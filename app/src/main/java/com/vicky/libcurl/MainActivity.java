@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 import jni.http.CppProxy;
-import jni.http.Proto.UserProto;
 
 public class MainActivity extends AppCompatActivity {
 

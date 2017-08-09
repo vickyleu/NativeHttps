@@ -10,5 +10,3 @@ add_subdirectory(jni/libzbar)
 add_subdirectory(src/main/cpp)
 
 
-
-

@@ -68,11 +68,7 @@
 #include <io.h>
 #include <fcntl.h>
 #endif
-
-#if defined(HAVE_STDBOOL_H) && defined(HAVE_BOOL_T)
 #include <stdbool.h>
-#endif
-
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -106,12 +102,12 @@
  * Definition of timeval struct for platforms that don't have it.
  */
 
-#ifndef HAVE_STRUCT_TIMEVAL
-struct timeval {
-    long tv_sec;
-    long tv_usec;
-};
-#endif
+//#ifndef HAVE_STRUCT_TIMEVAL
+//struct timeval {
+// long tv_sec;
+// long tv_usec;
+//};
+//#endif
 
 
 /*
@@ -169,12 +165,12 @@ struct timeval {
                                    (RECV_TYPE_ARG3)(z), \
                                    (RECV_TYPE_ARG4)(0))
 #endif
-#else /* HAVE_RECV */
-#ifndef sread
-/* */
-Error Missing_definition_of_macro_sread
-/* */
-#endif
+//#else /* HAVE_RECV */
+//#ifndef sread
+//  /* */
+//  Error Missing_definition_of_macro_sread
+//  /* */
+//#endif
 #endif /* HAVE_RECV */
 
 
@@ -191,21 +187,21 @@ Error Missing_definition_of_macro_sread
     !defined(SEND_TYPE_ARG3) || \
     !defined(SEND_TYPE_ARG4) || \
     !defined(SEND_TYPE_RETV)
-/* */
-Error Missing_definition_of_return_and_arguments_types_of_send
-/* */
+  /* */
+  Error Missing_definition_of_return_and_arguments_types_of_send
+  /* */
 #else
 #define swrite(x,y,z) (ssize_t)send((SEND_TYPE_ARG1)(x), \
-                                    (SEND_TYPE_ARG2)(y), \
+                                    (SEND_QUAL_ARG2 SEND_TYPE_ARG2)(y), \
                                     (SEND_TYPE_ARG3)(z), \
                                     (SEND_TYPE_ARG4)(SEND_4TH_ARG))
 #endif
-#else /* HAVE_SEND */
-#ifndef swrite
-/* */
-Error Missing_definition_of_macro_swrite
-/* */
-#endif
+//#else /* HAVE_SEND */
+//#ifndef swrite
+//  /* */
+//  Error Missing_definition_of_macro_swrite
+//  /* */
+//#endif
 #endif /* HAVE_SEND */
 
 
@@ -301,7 +297,7 @@ Error Missing_definition_of_macro_swrite
  */
 
 #if defined(__hpux) && !defined(HAVE_BOOL_T)
-typedef int bool;
+   typedef int bool;
 #  define false 0
 #  define true 1
 #  define HAVE_BOOL_T
@@ -315,22 +311,22 @@ typedef int bool;
  * global namespace though, so use bool_false and bool_true.
  */
 
-#ifndef HAVE_BOOL_T
-        typedef enum {
-            bool_false = 0,
-            bool_true = 1
-        } bool;
-
-/*
- * Use a define to let 'true' and 'false' use those enums.  There
- * are currently no use of true and false in libcurl proper, but
- * there are some in the examples. This will cater for any later
- * code happening to use true and false.
- */
-#  define false bool_false
-#  define true  bool_true
-#  define HAVE_BOOL_T
-#endif
+//#ifndef HAVE_BOOL_T
+//  typedef enum {
+//      bool_false = 0,
+//      bool_true  = 1
+//  } bool;
+//
+///*
+// * Use a define to let 'true' and 'false' use those enums.  There
+// * are currently no use of true and false in libcurl proper, but
+// * there are some in the examples. This will cater for any later
+// * code happening to use true and false.
+// */
+//#  define false bool_false
+//#  define true  bool_true
+//#  define HAVE_BOOL_T
+//#endif
 
 
 /*
@@ -374,7 +370,7 @@ __pragma(warning(pop))
  */
 
 #ifndef HAVE_SIG_ATOMIC_T
-        typedef int sig_atomic_t;
+typedef int sig_atomic_t;
 #define HAVE_SIG_ATOMIC_T
 #endif
 

@@ -59,6 +59,5 @@ add_library(protobuf STATIC ${PROTOBUF_SRC})
 find_library(z C:/Develop/Android/SDK/ndk-bundle/platforms/android-24/${ANDROID_ABI}/usr/lib/libz.so)
 
 ##增加gcc警告和调试标志
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lz -DHAVE_PTHREAD=1 -DGOOGLE_PROTOBUF_NO_RTTI=1")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -lz -lm  -DHAVE_PTHREAD=1 -DGOOGLE_PROTOBUF_NO_RTTI=1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lz -DHAVE_PTHREAD=1 -DGOOGLE_PROTOBUF_NO_RTTI=1")
 include_directories(./)

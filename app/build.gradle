@@ -18,43 +18,30 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                //command  adb shell setprop dalvik.vm.checkjni true
                 abiFilters 'armeabi', 'armeabi-v7a', 'mips', 'x86', 'x86_64', 'arm64-v8a'//,'mips64'
-                // Sets a flag to enable format macro constants for the C++ compiler.
                 cppFlags '-frtti',
+                        '-fexceptions',
+                        '-std=gnu++11',
                         '-Wwritable-strings',
                         '-Wno-return-type-c-linkage',
-                        '-fexceptions',
                         '-fstack-protector-all',
-                        '-std=c++1y' ,
-                        '-pedantic',
+                        '-DBUILDING_LIBCURL',//todo 屎前巨坑,libCurl不使用此定义的情况下不会初始化curl结构体
                         '-O3',
                         '-fPIC'
-//                '-Wunused-command-line-argument',
+                // '-std=c++1y' , '-pedantic', '-Wunused-command-line-argument',
                 cFlags '-Wwritable-strings',
                         '-Wno-return-type-c-linkage',
-                        '-DJSON_IS_AMALGAMATION',
                         '-fstack-protector-all',
+                        '-DBUILDING_LIBCURL',//todo 屎前巨坑,libCurl不使用此定义的情况下不会初始化curl结构体
                         '-O3',
                         '-fPIC'
-
-//                def PATH_SO="C:/Develop/Android/SDK/ndk-bundle/platforms/android-9/${ANDROID_ABI}/usr/lib"
-//                def z="${PATH_SO}/libz.so"
-//                def m="${PATH_SO}/libm.so"
-//                def c="${PATH_SO}/libm.so"
-//                def android="${PATH_SO}/libandroid.so"
-                /*'-std=c++11',*/
-//                targets "native-lib-demo"
 //                // Passes optional arguments to CMake.
-                arguments '-DANDROID_STL = gnustl_shared',//gnustl_shared',
-                        '-DCMAKE_VERBOSE_MAKEFILE = TRUE',
-                        '-DANDROID_PLATFORM=android-14',
-                        '-DANDROID_TOOLCHAIN=clang',
-                        '-DLIBCXX_FORCE_REBUILD = true',
-                        '-DAPP_OPTIM = debug' //, '-DANDROID_CPP_FEATURES=rtti exceptions',
-                // '-DSTLPORT_FORCE_REBUILD = TRUE',
-//                // Sets optional flags for the C compiler.
-//                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
+                arguments '-DANDROID_STL = gnustl_static',
+                        '-Wno-dev',
+                        '-DANDROID_NDK_PATH=C:/Develop/Android/SDK/ndk-bundle',
+                        '-DANDROID_PLATFORM=android-24',
+                        '-DANDROID_TOOLCHAIN=clang'
+                //  '-DCMAKE_VERBOSE_MAKEFILE = TRUE'
             }
         }
     }

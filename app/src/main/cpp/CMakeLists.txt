@@ -25,8 +25,7 @@ target_include_directories(native PUBLIC ../../../jni/libprotobuf)
 target_include_directories(native PUBLIC ../../../jni/libopenssl/include)
 target_include_directories(native PUBLIC ../../../jni/libopenssl/crypto)
 target_include_directories(native PUBLIC ../../../jni/libjsoncpp)
-include_directories(${HHEADERS})
-#target_include_directories(native PUBLIC ${HHEADERS})
+target_include_directories(native PUBLIC ${HHEADERS})
 target_include_directories(native PUBLIC ../../../jni/libcurl/include)
 
 #生成链接动态库

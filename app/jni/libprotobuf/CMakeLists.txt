@@ -55,9 +55,9 @@ set(PROTOBUF_SRC
 #    message(STATUS "protobuf啊啊: " ${PROTOBUF_SRC}/)
 #endif ()
 
-add_library(protobuf STATIC ${PROTOBUF_SRC})
-find_library(z C:/Develop/Android/SDK/ndk-bundle/platforms/android-24/${ANDROID_ABI}/usr/lib/libz.so)
-
+add_library(protobuf SHARED ${PROTOBUF_SRC})
+find_library(z-lib z)
 ##增加gcc警告和调试标志
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lz -DHAVE_PTHREAD=1 -DGOOGLE_PROTOBUF_NO_RTTI=1")
 include_directories(./)
+target_link_libraries(protobuf ${z-lib} )

@@ -21,10 +21,12 @@ public class CppProxy {
 //        }
 //        System.loadLibrary("stlport_shared");
 //        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("gnustl_shared");
-//        System.loadLibrary("curl");
-        System.loadLibrary("Zbar");
-        System.loadLibrary("jsonlib");
+//        System.loadLibrary("gnustl_shared");
+
+//        System.loadLibrary("jsonlib");
+//        System.loadLibrary("Zbar");
+        System.loadLibrary("curl");
+        System.loadLibrary("protobuf");
         System.loadLibrary("native");
 
     }

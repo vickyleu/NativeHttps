@@ -22,7 +22,30 @@
  * KIND, either express or implied.
  *
  ***************************************************************************/
+/*
 
+
+
+
+ "CURL_SIZEOF_LONG definition is missing!"
+there is a way for it .
+change the curlbuild.h at line number 162 add like this,if you are arm32 platform.
+//todo 修复方法备份
+//----------------------------------------------add
+#    define CURL_SIZEOF_LONG           4 //
+#    define CURL_TYPEOF_CURL_OFF_T     long long //
+#    define CURL_FORMAT_CURL_OFF_T     "lld"
+#    define CURL_FORMAT_CURL_OFF_TU    "llu"
+#    define CURL_FORMAT_OFF_T          "%lld"
+#    define CURL_SIZEOF_CURL_OFF_T     8
+#    define CURL_SUFFIX_CURL_OFF_T     LL
+#    define CURL_SUFFIX_CURL_OFF_TU    ULL
+#  define CURL_TYPEOF_CURL_SOCKLEN_T unsigned int
+#  define CURL_SIZEOF_CURL_SOCKLEN_T 4
+//#define __SYMBIAN32__
+
+
+ */
 /* ================================================================ */
 /*               NOTES FOR CONFIGURE CAPABLE SYSTEMS                */
 /* ================================================================ */
@@ -60,52 +83,52 @@
 
 #ifdef CURL_SIZEOF_LONG
 #error "CURL_SIZEOF_LONG shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_SIZEOF_LONG_already_defined
+Error Compilation_aborted_CURL_SIZEOF_LONG_already_defined
 #endif
 
 #ifdef CURL_TYPEOF_CURL_SOCKLEN_T
 #error "CURL_TYPEOF_CURL_SOCKLEN_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_TYPEOF_CURL_SOCKLEN_T_already_defined
+Error Compilation_aborted_CURL_TYPEOF_CURL_SOCKLEN_T_already_defined
 #endif
 
 #ifdef CURL_SIZEOF_CURL_SOCKLEN_T
 #error "CURL_SIZEOF_CURL_SOCKLEN_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_SIZEOF_CURL_SOCKLEN_T_already_defined
+Error Compilation_aborted_CURL_SIZEOF_CURL_SOCKLEN_T_already_defined
 #endif
 
 #ifdef CURL_TYPEOF_CURL_OFF_T
 #error "CURL_TYPEOF_CURL_OFF_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_TYPEOF_CURL_OFF_T_already_defined
+Error Compilation_aborted_CURL_TYPEOF_CURL_OFF_T_already_defined
 #endif
 
 #ifdef CURL_FORMAT_CURL_OFF_T
 #error "CURL_FORMAT_CURL_OFF_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_FORMAT_CURL_OFF_T_already_defined
+Error Compilation_aborted_CURL_FORMAT_CURL_OFF_T_already_defined
 #endif
 
 #ifdef CURL_FORMAT_CURL_OFF_TU
 #error "CURL_FORMAT_CURL_OFF_TU shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_FORMAT_CURL_OFF_TU_already_defined
+Error Compilation_aborted_CURL_FORMAT_CURL_OFF_TU_already_defined
 #endif
 
 #ifdef CURL_FORMAT_OFF_T
 #error "CURL_FORMAT_OFF_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_FORMAT_OFF_T_already_defined
+Error Compilation_aborted_CURL_FORMAT_OFF_T_already_defined
 #endif
 
 #ifdef CURL_SIZEOF_CURL_OFF_T
 #error "CURL_SIZEOF_CURL_OFF_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_SIZEOF_CURL_OFF_T_already_defined
+Error Compilation_aborted_CURL_SIZEOF_CURL_OFF_T_already_defined
 #endif
 
 #ifdef CURL_SUFFIX_CURL_OFF_T
 #error "CURL_SUFFIX_CURL_OFF_T shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_SUFFIX_CURL_OFF_T_already_defined
+Error Compilation_aborted_CURL_SUFFIX_CURL_OFF_T_already_defined
 #endif
 
 #ifdef CURL_SUFFIX_CURL_OFF_TU
 #error "CURL_SUFFIX_CURL_OFF_TU shall not be defined except in curlbuild.h"
-   Error Compilation_aborted_CURL_SUFFIX_CURL_OFF_TU_already_defined
+Error Compilation_aborted_CURL_SUFFIX_CURL_OFF_TU_already_defined
 #endif
 
 /* ================================================================ */
@@ -128,7 +151,9 @@
 /* header file sys/types.h must be included by the external interface. */
 #define CURL_PULL_SYS_TYPES_H 1
 #ifdef CURL_PULL_SYS_TYPES_H
+
 #  include <sys/types.h>
+
 #endif
 
 /* Configure process defines this to 1 when it finds out that system */
@@ -149,7 +174,9 @@
 /* header file sys/socket.h must be included by the external interface. */
 #define CURL_PULL_SYS_SOCKET_H 1
 #ifdef CURL_PULL_SYS_SOCKET_H
+
 #  include <sys/socket.h>
+
 #endif
 
 /* Configure process defines this to 1 when it finds out that system  */
@@ -159,11 +186,14 @@
 #  include <sys/poll.h>
 #endif
 
-/* The size of `long', as computed by sizeof. */
-#define CURL_SIZEOF_LONG 8
+
 
 /* Integral data type used for curl_socklen_t. */
+#ifdef __LP64__
 #define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
+#else
+#define CURL_TYPEOF_CURL_SOCKLEN_T unsigned int  //todo fix 64 bit system build 32 bit source
+#endif
 
 /* The size of `curl_socklen_t', as computed by sizeof. */
 #define CURL_SIZEOF_CURL_SOCKLEN_T 4
@@ -172,27 +202,61 @@
 typedef CURL_TYPEOF_CURL_SOCKLEN_T curl_socklen_t;
 
 /* Signed integral data type used for curl_off_t. */
+#ifdef __LP64__
 #define CURL_TYPEOF_CURL_OFF_T long
+#else
+#define CURL_TYPEOF_CURL_OFF_T int64_t  //todo fix 64 bit system build 32 bit source
+#endif
 
 /* Data type definition of curl_off_t. */
 typedef CURL_TYPEOF_CURL_OFF_T curl_off_t;
 
 /* curl_off_t formatting string directive without "%" conversion specifier. */
+#ifdef __LP64__
 #define CURL_FORMAT_CURL_OFF_T "ld"
-
+#else
+#define CURL_FORMAT_CURL_OFF_T "lld"  //todo fix 64 bit system build 32 bit source
+#endif
 /* unsigned curl_off_t formatting string without "%" conversion specifier. */
+#ifdef __LP64__
 #define CURL_FORMAT_CURL_OFF_TU "lu"
-
+#else
+#define CURL_FORMAT_CURL_OFF_TU "llu"   //todo fix 64 bit system build 32 bit source
+#endif
 /* curl_off_t formatting string directive with "%" conversion specifier. */
+#ifdef __LP64__
 #define CURL_FORMAT_OFF_T "%ld"
+#else
+#define CURL_FORMAT_OFF_T "%lld"   //todo fix 64 bit system build 32 bit source
+#endif
+/* The size of `long', as computed by sizeof. */
+#ifdef __LP64__
+#define CURL_SIZEOF_LONG 8
+#else
+#define CURL_SIZEOF_LONG 4  //todo fix 64 bit system build 32 bit source
+#endif
 
 /* The size of `curl_off_t', as computed by sizeof. */
+#ifdef __LP64__
 #define CURL_SIZEOF_CURL_OFF_T 8
-
+#else
+#define CURL_SIZEOF_CURL_OFF_T 8  //todo fix 64 bit system build 32 bit source
+#endif
 /* curl_off_t constant suffix. */
+#ifdef __LP64__
 #define CURL_SUFFIX_CURL_OFF_T L
+#else
+#define CURL_SUFFIX_CURL_OFF_T LL //todo fix 64 bit system build 32 bit source
+#endif
+
+
 
 /* unsigned curl_off_t constant suffix. */
+#ifdef __LP64__
 #define CURL_SUFFIX_CURL_OFF_TU UL
+#else
+#define CURL_SUFFIX_CURL_OFF_TU ULL //todo fix 64 bit system build 32 bit source
+#endif
+
 
 #endif /* __CURL_CURLBUILD_H */

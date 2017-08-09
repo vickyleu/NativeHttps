@@ -30,7 +30,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpointer-arith -Wwrite-strings \
                                         -Wunused -Winline -Wnested-externs \
                                         -Wmissing-declarations -Wmissing-prototypes -Wno-long-long -Wfloat-equal -Wno-multichar \
                                         -Wsign-compare -Wno-format-nonliteral -Wendif-labels -Wstrict-prototypes -Wdeclaration-after-statement \
-                                        -Wno-system-headers -DHAVE_CONFIG_H=1  ")
+                                        -Wno-system-headers -DHAVE_CONFIG_H=1 ")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wpointer-arith -Wwrite-strings \
                                     -Wunused -Winline -Wnested-externs \
@@ -45,7 +45,6 @@ if ($(ANDROID_ABI) STREQUAL "mips64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3  -Os")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Os")
 endif ()
-
 
 
 set(LIB_VTLS_CFILES
@@ -85,6 +84,7 @@ set(LIB_CFILES
         lib/formdata.c
         lib/cookie.c
         lib/http.c
+        lib/http_ntlm.c
         lib/sendf.c
         lib/ftp.c
         lib/url.c
@@ -161,6 +161,8 @@ set(LIB_CFILES
         lib/asyn-thread.c
         lib/curl_gssapi.c
         lib/curl_ntlm_wb.c
+        lib/strcase.c
+        lib/rand.c
         lib/curl_ntlm_core.c
         lib/curl_sasl.c
         lib/curl_multibyte.c
@@ -174,6 +176,7 @@ set(LIB_CFILES
         lib/curl_endian.c
         lib/curl_des.c)
 
+
 set(LIB_HFILES
         lib/arpa_telnet.h
         lib/netrc.h
@@ -184,6 +187,7 @@ set(LIB_HFILES
         lib/formdata.h
         lib/cookie.h
         lib/http.h
+        lib/http_ntlm.h
         lib/sendf.h
         lib/ftp.h
         lib/url.h
@@ -253,6 +257,8 @@ set(LIB_HFILES
         lib/asyn.h
         lib/curl_gssapi.h
         lib/curl_ntlm_wb.h
+        lib/strcase.h
+        lib/rand.h
         lib/curl_ntlm_core.h
         lib/curl_sasl.h
         lib/curl_multibyte.h
@@ -271,15 +277,33 @@ set(LIB_HFILES
         lib/curl_printf.h)
 set(LIB_RCFILES lib/libcurl.rc)
 
-set(CSOURCES ${LIB_CFILES} ${LIB_VTLS_CFILES})
-set(HHEADERS ${LIB_HFILES} ${LIB_VTLS_HFILES})
+set(LIB_VAUTH_FILES
+        lib/vauth/digest.c
+        lib/vauth/vauth.c
+        lib/vauth/ntlm.c
+        lib/vauth/oauth2.c
+        lib/vauth/cram.c
+        lib/vauth/cleartext.c
+        )
 
-add_library(curl STATIC
+set(LIB_VAUTH_HFILES
+        lib/vauth/digest.h
+        lib/vauth/vauth.h
+        lib/vauth/ntlm.h
+        )
+
+
+set(CSOURCES ${LIB_CFILES} ${LIB_VTLS_CFILES} ${LIB_VAUTH_FILES})
+
+set(HHEADERS ${LIB_HFILES} ${LIB_VTLS_HFILES} ${LIB_VAUTH_HFILES})
+
+add_library(curl SHARED
         ${CSOURCES}
         ${HHEADERS})
 
 target_include_directories(curl PUBLIC
         ./include
+        ./lib
         ../libopenssl/include
         ../libopenssl/crypto)
 

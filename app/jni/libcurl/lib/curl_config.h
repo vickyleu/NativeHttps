@@ -26,7 +26,7 @@
 /* #undef CURL_DISABLE_FTP */
 
 /* to disable Gopher */
-/* #undef CURL_DISABLE_GOPHER */
+#define CURL_DISABLE_GOPHER  1
 
 /* to disable HTTP */
 /* #undef CURL_DISABLE_HTTP */
@@ -77,7 +77,7 @@
 /* #undef EGD_SOCKET */
 
 /* Define if you want to enable IPv6 support */
-/* #undef ENABLE_IPV6 */
+#define ENABLE_IPV6  1
 
 /* Define to the type of arg 2 for gethostname. */
 #define GETHOSTNAME_TYPE_ARG2 size_t
@@ -212,7 +212,7 @@
 #define HAVE_GETADDRINFO_THREADSAFE 1
 
 /* Define to 1 if you have the `geteuid' function. */
-#define HAVE_GETEUID 1
+//#define HAVE_GETEUID 1
 
 /* Define to 1 if you have the gethostbyaddr function. */
 #define HAVE_GETHOSTBYADDR 1
@@ -263,10 +263,10 @@
 #define HAVE_GETPROTOBYNAME 1
 
 /* Define to 1 if you have the `getpwuid' function. */
-#define HAVE_GETPWUID 1
+//#define HAVE_GETPWUID 1
 
 /* Define to 1 if you have the `getpwuid_r' function. */
-#define HAVE_GETPWUID_R 1
+//#define HAVE_GETPWUID_R 1
 
 /* Define to 1 if you have the `getrlimit' function. */
 #define HAVE_GETRLIMIT 1
@@ -799,10 +799,10 @@
 /* #undef NEED_THREAD_SAFE */
 
 /* Define to enable NTLM delegation to winbind's ntlm_auth helper. */
-#define NTLM_WB_ENABLED 1
+//#define NTLM_WB_ENABLED 1
 
 /* Define absolute filename for winbind's ntlm_auth helper. */
-#define NTLM_WB_FILE "/usr/bin/ntlm_auth"
+//#define NTLM_WB_FILE "/usr/bin/ntlm_auth"
 
 /* cpu-machine-OS */
 #define OS "arm-unknown-linux-gnu"
@@ -850,7 +850,7 @@
 #define RETSIGTYPE void
 
 /* Define to the type qualifier of arg 5 for select. */
-#define SELECT_QUAL_ARG5 
+#define SELECT_QUAL_ARG5
 
 /* Define to the type of arg 1 for select. */
 #define SELECT_TYPE_ARG1 int
@@ -886,25 +886,45 @@
 #define SIZEOF_INT 4
 
 /* The size of `long', as computed by sizeof. */
+#ifdef __arch64__
 #define SIZEOF_LONG 8
+#else
+#define SIZEOF_LONG 4
+#endif
 
 /* The size of `long long', as computed by sizeof. */
 /* #undef SIZEOF_LONG_LONG */
 
 /* The size of `off_t', as computed by sizeof. */
+#ifdef __arch64__
 #define SIZEOF_OFF_T 8
+#else
+#define SIZEOF_OFF_T 4
+#endif
 
 /* The size of `short', as computed by sizeof. */
 #define SIZEOF_SHORT 2
 
 /* The size of `size_t', as computed by sizeof. */
+#ifdef __arch64__
 #define SIZEOF_SIZE_T 8
+#else
+#define SIZEOF_SIZE_T 4
+#endif
 
 /* The size of `time_t', as computed by sizeof. */
+#ifdef __arch64__
 #define SIZEOF_TIME_T 8
+#else
+#define SIZEOF_TIME_T 4
+#endif
 
 /* The size of `void*', as computed by sizeof. */
+#ifdef __arch64__
 #define SIZEOF_VOIDP 8
+#else
+#define SIZEOF_VOIDP 4
+#endif
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -943,7 +963,7 @@
 /* #undef USE_LIBSSH2 */
 
 /* If you want to build curl with the built-in manual */
-/* #undef USE_MANUAL */
+#define USE_MANUAL  1
 
 /* if mbedTLS is enabled */
 /* #undef USE_MBEDTLS */
@@ -963,6 +983,8 @@
 /* if OpenSSL is in use */
 #define USE_OPENSSL 1
 
+#define USE_SSLEAY 1
+
 /* if PolarSSL is enabled */
 /* #undef USE_POLARSSL */
 
@@ -970,7 +992,7 @@
 /* #undef USE_SCHANNEL */
 
 /* if you want POSIX threaded DNS lookup */
-/* #undef USE_THREADS_POSIX */
+#define USE_THREADS_POSIX 1
 
 /* if you want Win32 threaded DNS lookup */
 /* #undef USE_THREADS_WIN32 */

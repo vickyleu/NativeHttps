@@ -11,7 +11,6 @@ aux_source_directory(./pkg DIR_LIB_SRCS_PKG)
 aux_source_directory(./protobuf PB_SRC)
 message(STATUS "妈卖批: " ${DIR_LIB_SRCS})
 
-
 #增加Cpp动态共享库
 find_library(log-lib log)
 find_library(z-lib z)
@@ -25,16 +24,15 @@ target_include_directories(native PUBLIC ../../../jni/libprotobuf)
 target_include_directories(native PUBLIC ../../../jni/libopenssl/include)
 target_include_directories(native PUBLIC ../../../jni/libopenssl/crypto)
 target_include_directories(native PUBLIC ../../../jni/libjsoncpp)
-target_include_directories(native PUBLIC ${HHEADERS})
+target_include_directories(native PUBLIC ../../../jni/libcurl/lib)
 target_include_directories(native PUBLIC ../../../jni/libcurl/include)
 
 #生成链接动态库
 target_link_libraries(native
         ${log-lib}
         ${z-lib}
-        #ssl
-        #crypto
-        z
+        ssl
+        crypto
         curl
         protobuf
         jsonlib

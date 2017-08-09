@@ -18,7 +18,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                abiFilters 'armeabi', 'armeabi-v7a', 'mips', 'x86', 'x86_64', 'arm64-v8a'//,'mips64'
+                abiFilters 'armeabi',
+                        'armeabi-v7a',
+                        'mips',
+                        'x86',
+                        'arm64-v8a',
+                        'x86_64',
+                        'mips64'
                 cppFlags '-frtti',
                         '-fexceptions',
                         '-std=gnu++11',
@@ -39,7 +45,7 @@ android {
                 arguments '-DANDROID_STL = gnustl_static',
                         '-Wno-dev',
                         '-DANDROID_NDK_PATH=C:/Develop/Android/SDK/ndk-bundle',
-                        '-DANDROID_PLATFORM=android-24',
+                        '-DANDROID_PLATFORM=android-16',
                         '-DANDROID_TOOLCHAIN=clang'
                 //  '-DCMAKE_VERBOSE_MAKEFILE = TRUE'
             }

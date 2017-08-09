@@ -13,6 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DJSON_IS_AMALGAMATION ")
 
 
 #增加Cpp动态共享库
-add_library(jsonlib SHARED ${DIR_JSON_LIB_SRCS})
+add_library(jsonlib STATIC ${DIR_JSON_LIB_SRCS})
 
 
